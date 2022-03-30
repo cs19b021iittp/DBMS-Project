@@ -1,0 +1,63 @@
+.landing-page {
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f7f7f7;
+}
+
+.landing-page-strip {
+  background-color: #dedbd2;
+  height: 100vh;
+  margin-left: 50%;
+  width: 25%;
+}
+
+.landing-page-content {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.landing-page-logo {
+  width: 15%;
+  margin: 20px;
+}
+
+.landing-page-flower {
+  vertical-align: middle;
+  width: 60%;
+  margin-left: 20%;
+}
+
+.landing-page-left {
+  flex: 1;
+}
+
+.landing-page-right {
+  flex: 1;
+}
+
+.landing-page-title-first {
+  font-weight: bold;
+  font-size: 2.5em;
+}
+
+.landing-page-welcome-text {
+  padding-top: 14%;
+  width: 50%;
+}
+
+.landing-page-button {
+  text-decoration: none;
+  border: none;
+  font-size: 1.5em;
+  padding: 0.5em;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  border-radius: 1.25em;
+  cursor: pointer;
+}
