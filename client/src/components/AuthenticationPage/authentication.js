@@ -6,7 +6,6 @@ import firebase from "../../firebase";
 import logo from "../../assets/logo.svg";
 import auth_flower from "../../assets/auth_flower.svg";
 import { Input, Space } from "antd";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import "antd/dist/antd.css";
 
 function AuthenticationPage({ match }) {
@@ -121,9 +120,16 @@ function AuthenticationPage({ match }) {
         </div>
         <div className="auth-page-right">
           <div style={{ textAlign: "center", marginTop: "10%" }}>
-            <div className="auth-page-welcome-text">Enter the OTP</div>
-            <br></br>
+            <div className="auth-page-welcome-text">
+              Enter your Phone Number
+            </div>
             <Space direction="vertical">
+              <Input
+                placeholder="Enter Phone Number"
+                onChange={(e) => setPhone(e.target.value)}
+                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+              />
+              <div className="auth-page-welcome-text">Enter the OTP</div>
               <Input.Password
                 placeholder="Enter OTP"
                 onChange={(e) => setOtp(e.target.value)}
@@ -138,8 +144,12 @@ function AuthenticationPage({ match }) {
               style={{ backgroundColor: "#edafb8" }}
               onClick={(e) => {
                 if (button) {
-                  verifyPhone(e);
-                  setButton(false);
+                  if (phone.length === 10) {
+                    verifyPhone(e);
+                    setButton(false);
+                  } else {
+                    alert("Please enter a valid phone number");
+                  }
                 } else {
                   verifyOtp(e);
                 }
