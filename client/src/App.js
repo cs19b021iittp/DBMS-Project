@@ -13,8 +13,8 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          {/* <Route exact path="/" component={SellerUpdatePage} /> */}
-          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/" component={SellerUpdatePage} />
+          {/* <Route exact path="/" component={LandingPage} /> */}
           <Route exact path="/auth/:id" component={AuthenticationPage} />
           <Route exact path="/buyer-home" component={BuyerHomePage} />
           <Route exact path="/seller-home" component={SellerHomePage} />

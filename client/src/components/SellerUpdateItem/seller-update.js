@@ -146,7 +146,6 @@ function SellerUpdatePage() {
               height: "90vh",
               width: "100%",
               overflow: "auto",
-              border: "1px solid grey",
             }}
           >
             <Card
