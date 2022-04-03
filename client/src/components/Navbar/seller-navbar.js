@@ -2,7 +2,7 @@
 
 import React from "react";
 import logo from "../../assets/logo.svg";
-import user from "../../assets/user.svg";
+import upload from "../../assets/upload.svg";
 import menu from "../../assets/menu.svg";
 import "./navbar.css";
 
@@ -16,14 +16,14 @@ const SellerNavbar = () => {
       <span className="buyer-navbar-icons" style={{ marginTop: "15px" }}>
         <div>
           <img
-            src={user}
+            src={upload}
             alt="logo"
-            style={{ width: "15%", marginLeft: "20%", cursor: "pointer" }}
+            style={{ width: "8%", marginLeft: "25%", cursor: "pointer" }}
           />
           <img
             src={menu}
             alt="logo"
-            style={{ width: "15%", marginLeft: "15%", cursor: "pointer" }}
+            style={{ width: "8%", marginLeft: "5%", cursor: "pointer" }}
           />
         </div>
       </span>
