@@ -45,3 +45,8 @@
   padding: 0;
   width: 100%;
 }
+
+.left-panel-header {
+  font-size: 1.4em;
+  font-weight: bold;
+}
