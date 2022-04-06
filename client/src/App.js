@@ -8,6 +8,8 @@ import BuyerHomePage from "./components/BuyerHomePage/buyer-home-page";
 import BuyerAccountPage from "./components/BuyerAccountPage/buyer-account-page";
 import BuyerOrdersPage from "./components/BuyerOrdersPage/buyer-orders";
 import SellerHomePage from "./components/SellerHomePage/seller-home-page";
+import PaymentPage from "./components/PaymentGateway/payment-page";
+import OtpPayment from "./components/PaymentGateway/otp-payment";
 import CartPage from "./components/CartPage/cart-page";
 import SellerUpdatePage from "./components/SellerUpdateItem/seller-update";
 import ItemPage from "./components/ItemPage/item-page";
@@ -17,7 +19,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={BuyerOrdersPage} />
+          <Route exact path="/" component={OtpPayment} />
           <Route exact path="/item" component={ItemPage} />
           {/* <Route exact path="/" component={LandingPage} /> */}
           <Route exact path="/auth/:id" component={AuthenticationPage} />
