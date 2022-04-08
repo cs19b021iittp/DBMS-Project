@@ -1,0 +1,43 @@
+.payment-page {
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel-payment {
+  flex: 0.3;
+  background-color: #dedbd2;
+  padding: 20px;
+}
+
+.mid-panel-payment {
+  padding: 20px;
+  flex: 0.3;
+}
+
+.right-panel-payment {
+  padding: 20px;
+  flex: 0.4;
+}
+
+th {
+  padding-right: 15px;
+}
+
+.td-account {
+  padding: 15px;
+  background-color: #edafb8;
+  border-radius: 10px;
+}
+
+.btn-account {
+  text-decoration: none;
+  border: none;
+  padding: 10px;
+  height: 40px;
+  border-radius: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  cursor: pointer;
+  background-color: #f7e1d7;
+  margin-left: 85%;
+}
