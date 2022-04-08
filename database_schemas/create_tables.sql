@@ -54,6 +54,7 @@ CREATE TABLE "payment_cards" (
 );
 
 CREATE TABLE "order_items" (
+  "id" SERIAL PRIMARY KEY,
   "order_id" int,
   "product_id" int,
   "quantity" int DEFAULT 1
@@ -90,6 +91,7 @@ CREATE TABLE "discounts" (
 );
 
 CREATE TABLE "cart_items" (
+  "id" SERIAL PRIMARY KEY,
   "user_id" int,
   "product_id" int,
   "quantity" int
