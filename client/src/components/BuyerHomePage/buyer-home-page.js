@@ -1,11 +1,11 @@
 //@ts-check
 
 import React, { useEffect, useState } from "react";
-//import Chatbot from "react-chatbot-kit";
-// import 'react-chatbot-kit/build/main.css';
-// import config from "../../chatbot/config";
-// import MessageParser from "../../chatbot/MessageParser";
-// import ActionProvider from "../../chatbot/ActionProvider";
+import Chatbot from "react-chatbot-kit";
+import "react-chatbot-kit/build/main.css";
+import config from "../../chatbot2/config";
+import MessageParser from "../../chatbot2/MessageParser";
+import ActionProvider from "../../chatbot2/ActionProvider";
 
 import "./buyer-home-page.css";
 import Navbar from "../Navbar/buyer-navbar";
