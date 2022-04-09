@@ -27,6 +27,7 @@ CREATE TYPE "brands" AS ENUM (
   'stylestop'
 );
 
+DROP TABLE IF EXISTS "buyers";
 CREATE TABLE "buyers" (
   "id" SERIAL PRIMARY KEY,
   "phone_number" char(10),
@@ -35,6 +36,7 @@ CREATE TABLE "buyers" (
   "wallet_balance" decimal CHECK("wallet_balance" > 0.0)
 );
 
+DROP TABLE IF EXISTS "addresses";
 CREATE TABLE "addresses" (
   "id" SERIAL PRIMARY KEY,
   "user_id" int,
@@ -45,6 +47,7 @@ CREATE TABLE "addresses" (
   "country" varchar
 );
 
+DROP TABLE IF EXISTS "payment_cards";
 CREATE TABLE "payment_cards" (
   "id" SERIAL PRIMARY KEY,
   "user_id" int,
@@ -53,6 +56,7 @@ CREATE TABLE "payment_cards" (
   "cvv" char(3)
 );
 
+DROP TABLE IF EXISTS "order_items";
 CREATE TABLE "order_items" (
   "id" SERIAL PRIMARY KEY,
   "order_id" int,
@@ -60,6 +64,7 @@ CREATE TABLE "order_items" (
   "quantity" int DEFAULT 1 CHECK("quantity" > 0)
 );
 
+DROP TABLE IF EXISTS "orders";
 CREATE TABLE "orders" (
   "id" int PRIMARY KEY,
   "user_id" int UNIQUE NOT NULL,
@@ -71,6 +76,7 @@ CREATE TABLE "orders" (
   "payment_method" payment_options
 );
 
+DROP TABLE IF EXISTS "products";
 CREATE TABLE "products" (
   "id" SERIAL PRIMARY KEY,
   "name" varchar,
@@ -84,12 +90,14 @@ CREATE TABLE "products" (
   "discount_id" int
 );
 
+DROP TABLE IF EXISTS "discounts";
 CREATE TABLE "discounts" (
   "id" SERIAL PRIMARY KEY,
   "name" varchar,
   "percent" decimal CHECK("percent" > 0.0)
 );
 
+DROP TABLE IF EXISTS "cart_items";
 CREATE TABLE "cart_items" (
   "id" SERIAL PRIMARY KEY,
   "user_id" int,
@@ -97,6 +105,7 @@ CREATE TABLE "cart_items" (
   "quantity" int CHECK("quantity" > 0)
 );
 
+DROP TABLE IF EXISTS "sellers";
 CREATE TABLE "sellers" (
   "id" int,
   "phone_number" char(10),
