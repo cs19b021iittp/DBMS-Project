@@ -17,7 +17,9 @@ var initQueries = [];
     });
 
   for (let i = 0; i < initQueries.length; i++) {
-    await pool.query(initQueries[i]).catch((error) => {
+    await pool.query(initQueries[i]).then(returned_data => {
+      console.log("Returned from Database\n", returned_data);
+    }).catch((error) => {
       console.log("Error:", error);
       console.log("Database could not be initialized successfully");
       return;
