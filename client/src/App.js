@@ -19,7 +19,8 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={OtpPayment} />
+          {/* <Route exact path="/" component={OtpPayment} /> */}
+          <Route exact path="/" component={BuyerHomePage} />
           <Route exact path="/item" component={ItemPage} />
           {/* <Route exact path="/" component={LandingPage} /> */}
           <Route exact path="/auth/:id" component={AuthenticationPage} />

@@ -32,7 +32,7 @@ CREATE TABLE "buyers" (
   "phone_number" char(10),
   "first_name" varchar,
   "last_name" varchar,
-  "wallet_balance" decimal
+  "wallet_balance" decimal CHECK("wallet_balance" > 0.0)
 );
 
 CREATE TABLE "addresses" (
@@ -50,14 +50,14 @@ CREATE TABLE "payment_cards" (
   "user_id" int,
   "name_on_card" varchar,
   "card_number" char(16),
-  "cvv" varchar
+  "cvv" char(3)
 );
 
 CREATE TABLE "order_items" (
   "id" SERIAL PRIMARY KEY,
   "order_id" int,
   "product_id" int,
-  "quantity" int DEFAULT 1
+  "quantity" int DEFAULT 1 CHECK("quantity" > 0)
 );
 
 CREATE TABLE "orders" (
@@ -79,29 +79,29 @@ CREATE TABLE "products" (
   "category" products_categories,
   "brand" brands,
   "seller_id" int NOT NULL,
-  "price" decimal,
-  "left_in_stock" int,
+  "price" decimal CHECK("price" > 0.0),
+  "left_in_stock" int CHECK("left_in_stock" > 0),
   "discount_id" int
 );
 
 CREATE TABLE "discounts" (
   "id" SERIAL PRIMARY KEY,
   "name" varchar,
-  "percent" decimal
+  "percent" decimal CHECK("percent" > 0.0)
 );
 
 CREATE TABLE "cart_items" (
   "id" SERIAL PRIMARY KEY,
   "user_id" int,
   "product_id" int,
-  "quantity" int
+  "quantity" int CHECK("quantity" > 0)
 );
 
 CREATE TABLE "sellers" (
   "id" int,
   "phone_number" char(10),
   "seller_name" varchar,
-  "account_balance" decimal
+  "account_balance" decimal CHECK("account_balance" > 0.0)
 );
 
 ALTER TABLE "order_items" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
