@@ -1,5 +1,22 @@
--- Loading Data into "discounts" table 
+-- Loading Data into "buyers" table 
+INSERT INTO "buyers"("phone_number", "first_name", "last_name", "wallet_balance")
+VALUES ('9876543210', 'Sheetal', 'Sharma', 4000.1);
 
+-- Loading Data into "addresses" table 
+-- for each buyer create 2 addresses each. (user_id is 1 2 3 4 5)
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (1, 'Number 4 Teri Street', 'Block - 5', 'Agra', '560095', 'India');
+
+-- Loading Data into "payment_cards" table 
+-- for each buyer create exactly 1 payment card. (user_id is 1 2 3 4 5)
+INSERT INTO "payment_cards"("user_id", "name_on_card", "card_number", "cvv")
+VALUES (1, 'Sheetal S', '1234123412341234', '123');
+
+-- -- Loading Data into "sellers" table 
+INSERT INTO "sellers"("phone_number", "seller_name", "account_balance")
+VALUES ('1234567890', 'Aditi Singh', 5003);
+
+-- Loading Data into "discounts" table 
 INSERT INTO "discounts"("name", "percent")
 VALUES ('FLAT50', 50);
 
