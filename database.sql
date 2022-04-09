@@ -1,7 +1,14 @@
-CREATE TABLE IF NOT EXISTS todo(
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL
+DROP table IF EXISTS "buyers";
+
+CREATE TABLE "buyers" (
+  "id" SERIAL PRIMARY KEY,
+  "phone_number" char(10),
+  "first_name" varchar,
+  "last_name" varchar,
+  "wallet_balance" decimal
 );
 
-DROP table IF EXISTS todo;
+INSERT INTO "buyers"("phone_number", "first_name", "last_name", "wallet_balance")
+VALUES ('1234567890', 'Ramu', 'Sharma', 100.3);
+
+SELECT * FROM "buyers";
