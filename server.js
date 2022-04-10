@@ -16,15 +16,13 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.post("/api/todos", async (req, res) => {
-  const addTodo = await pool
-    .query("DROP TABLE IF EXISTS todo")
-    .catch((error) => {
-      console.log(error);
-      res.json(error);
-      return;
-    });
-  res.json(addTodo);
+app.post("/api/query", async (req, res) => {
+  const query = await pool.query(req.body.query).catch((error) => {
+    console.log(error);
+    res.json(error);
+    return;
+  });
+  res.json(query);
 });
 
 const port = process.env.PORT || 5000;
