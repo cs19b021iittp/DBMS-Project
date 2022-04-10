@@ -23,6 +23,16 @@
 
 .right-panel {
   flex: 0.3;
+  background-image: url("../../assets/dashboard_flower.svg");
+  background-repeat: no-repeat;
+  background-size: 450px;
+}
+
+.chatbot {
+  position: fixed;
+  bottom: 0%;
+  width: 8%;
+  right: 18%;
 }
 
 .card-title {
