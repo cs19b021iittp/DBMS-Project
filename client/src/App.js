@@ -13,14 +13,16 @@ import OtpPayment from "./components/PaymentGateway/otp-payment";
 import CartPage from "./components/CartPage/cart-page";
 import SellerUpdatePage from "./components/SellerUpdateItem/seller-update";
 import ItemPage from "./components/ItemPage/item-page";
+import BuyerSignupPage from "./components/BuyerSignupPage/buyer-signup";
+import SellerSignupPage from "./components/SellerSignupPage/seller-signup";
 
 class App extends Component {
   render() {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={SellerHomePage} />
-          {/* <Route exact path="/" component={BuyerHomePage} /> */}
+          {/* <Route exact path="/" component={OtpPayment} /> */}
+          <Route exact path="/" component={BuyerSignupPage} />
           <Route exact path="/item" component={ItemPage} />
           {/* <Route exact path="/" component={LandingPage} /> */}
           <Route exact path="/auth/:id" component={AuthenticationPage} />
