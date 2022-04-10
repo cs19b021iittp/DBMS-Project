@@ -1,12 +1,6 @@
 //@ts-check
 
 import React, { useEffect, useState } from "react";
-/* import Chatbot from "react-chatbot-kit";
-import "react-chatbot-kit/build/main.css";
-import config from "../../chatbot2/config";
-import MessageParser from "../../chatbot2/MessageParser";
-import ActionProvider from "../../chatbot2/ActionProvider"; */
-
 import Chatbot from "../../chatbot/Chatbot";
 //import { ThemeProvider } from 'styled-components';
 
@@ -248,16 +242,7 @@ function BuyerHomePage() {
         <div className="right-panel">
           <div className="chatbot">
             <Chatbot />
-            {/* <ThemeProvider theme={theme}>
-          <ChatBot 
-          speechSynthesis={{ enable: true, lang: 'en' }}
-          headerTitle="Chat with the Tsumani Deal Bot"
-          recognitionEnable={true}
-          steps={steps} 
-          />
-        </ThemeProvider>  */}
           </div>
-          {/* <img src={flower} style={{ width: "80%" }}></img> */}
         </div>
       </div>
     </div>
