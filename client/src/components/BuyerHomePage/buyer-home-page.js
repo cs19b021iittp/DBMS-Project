@@ -7,7 +7,7 @@ import config from "../../chatbot2/config";
 import MessageParser from "../../chatbot2/MessageParser";
 import ActionProvider from "../../chatbot2/ActionProvider"; */
 
-import Chatbot from '../../chatbot/Chatbot';
+import Chatbot from "../../chatbot/Chatbot";
 //import { ThemeProvider } from 'styled-components';
 
 import "./buyer-home-page.css";
@@ -18,8 +18,6 @@ import { Checkbox } from "antd";
 import { Radio } from "antd";
 import { Link } from "react-router-dom";
 //import {steps, theme} from "../../chatbot/steps";
-
-
 
 const Card = (props) => {
   return (
@@ -148,7 +146,7 @@ function BuyerHomePage() {
             />
           </div>
         </div>
-        <div className="mid-panel"> 
+        <div className="mid-panel">
           <div style={{ float: "left" }}>
             <Card
               image={sofa}
@@ -248,9 +246,9 @@ function BuyerHomePage() {
           </div>
         </div>
         <div className="right-panel">
-        <div className="chatbot">
-          <Chatbot />
-        {/* <ThemeProvider theme={theme}>
+          <div className="chatbot">
+            <Chatbot />
+            {/* <ThemeProvider theme={theme}>
           <ChatBot 
           speechSynthesis={{ enable: true, lang: 'en' }}
           headerTitle="Chat with the Tsumani Deal Bot"
@@ -258,7 +256,7 @@ function BuyerHomePage() {
           steps={steps} 
           />
         </ThemeProvider>  */}
-        </div>
+          </div>
           {/* <img src={flower} style={{ width: "80%" }}></img> */}
         </div>
       </div>

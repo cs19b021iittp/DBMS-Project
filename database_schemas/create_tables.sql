@@ -1,33 +1,4 @@
-CREATE TYPE "login" AS ENUM (
-  'logged_in',
-  'logged_out'
-);
-
-CREATE TYPE "order_status" AS ENUM (
-  'on_the_way',
-  'delivered',
-  'cancelled'
-);
-
-CREATE TYPE "payment_options" AS ENUM (
-  'wallet',
-  'card'
-);
-
-CREATE TYPE "products_categories" AS ENUM (
-  'furniture',
-  'lighting',
-  'plants',
-  'show_pieces'
-);
-
-CREATE TYPE "brands" AS ENUM (
-  'home_centre',
-  'ddecor',
-  'stylestop'
-);
-
-DROP TABLE IF EXISTS "buyers";
+DROP TABLE IF EXISTS "buyers" CASCADE;
 CREATE TABLE "buyers" (
   "id" SERIAL PRIMARY KEY,
   "phone_number" char(10),
@@ -36,7 +7,7 @@ CREATE TABLE "buyers" (
   "wallet_balance" decimal CHECK("wallet_balance" > 0.0)
 );
 
-DROP TABLE IF EXISTS "addresses";
+DROP TABLE IF EXISTS "addresses" CASCADE;
 CREATE TABLE "addresses" (
   "id" SERIAL PRIMARY KEY,
   "user_id" int,
@@ -47,7 +18,7 @@ CREATE TABLE "addresses" (
   "country" varchar
 );
 
-DROP TABLE IF EXISTS "payment_cards";
+DROP TABLE IF EXISTS "payment_cards" CASCADE;
 CREATE TABLE "payment_cards" (
   "id" SERIAL PRIMARY KEY,
   "user_id" int,
@@ -56,7 +27,7 @@ CREATE TABLE "payment_cards" (
   "cvv" char(3)
 );
 
-DROP TABLE IF EXISTS "order_items";
+DROP TABLE IF EXISTS "order_items" CASCADE;
 CREATE TABLE "order_items" (
   "id" SERIAL PRIMARY KEY,
   "order_id" int,
@@ -64,9 +35,9 @@ CREATE TABLE "order_items" (
   "quantity" int DEFAULT 1 CHECK("quantity" > 0)
 );
 
-DROP TABLE IF EXISTS "orders";
+DROP TABLE IF EXISTS "orders" CASCADE;
 CREATE TABLE "orders" (
-  "id" int PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "user_id" int UNIQUE NOT NULL,
   "status" order_status,
   "created_at" timestamp,
@@ -76,7 +47,7 @@ CREATE TABLE "orders" (
   "payment_method" payment_options
 );
 
-DROP TABLE IF EXISTS "products";
+DROP TABLE IF EXISTS "products" CASCADE;
 CREATE TABLE "products" (
   "id" SERIAL PRIMARY KEY,
   "name" varchar,
@@ -90,14 +61,14 @@ CREATE TABLE "products" (
   "discount_id" int
 );
 
-DROP TABLE IF EXISTS "discounts";
+DROP TABLE IF EXISTS "discounts" CASCADE;
 CREATE TABLE "discounts" (
   "id" SERIAL PRIMARY KEY,
   "name" varchar,
   "percent" decimal CHECK("percent" > 0.0)
 );
 
-DROP TABLE IF EXISTS "cart_items";
+DROP TABLE IF EXISTS "cart_items" CASCADE;
 CREATE TABLE "cart_items" (
   "id" SERIAL PRIMARY KEY,
   "user_id" int,
@@ -105,9 +76,9 @@ CREATE TABLE "cart_items" (
   "quantity" int CHECK("quantity" > 0)
 );
 
-DROP TABLE IF EXISTS "sellers";
+DROP TABLE IF EXISTS "sellers" CASCADE;
 CREATE TABLE "sellers" (
-  "id" int,
+  "id" SERIAL PRIMARY KEY,
   "phone_number" char(10),
   "seller_name" varchar,
   "account_balance" decimal CHECK("account_balance" > 0.0)
@@ -123,7 +94,7 @@ ALTER TABLE "addresses" ADD FOREIGN KEY ("user_id") REFERENCES "buyers" ("id");
 
 ALTER TABLE "products" ADD FOREIGN KEY ("discount_id") REFERENCES "discounts" ("id");
 
-ALTER TABLE "buyers" ADD FOREIGN KEY ("id") REFERENCES "payment_cards" ("user_id");
+ALTER TABLE "payment_cards" ADD FOREIGN KEY ("user_id") REFERENCES "buyers" ("id");
 
 ALTER TABLE "cart_items" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 

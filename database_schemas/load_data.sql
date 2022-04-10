@@ -1,4 +1,3 @@
--- Loading Data into "buyers" table 
 INSERT INTO "buyers"("phone_number", "first_name", "last_name", "wallet_balance")
 VALUES ('9876543210', 'Sheetal', 'Sharma', 4000.1);
 
@@ -14,10 +13,6 @@ VALUES ('9876543213', 'Kareena', 'Kapoor', 5000.1);
 INSERT INTO "buyers"("phone_number", "first_name", "last_name", "wallet_balance")
 VALUES ('9876543214', 'Hritik', 'Roshan', 8000.1);
 
-
-
--- Loading Data into "addresses" table 
--- for each buyer create 2 addresses each. (user_id is 1 2 3 4 5)
 INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
 VALUES (1, 'Number 4 Teri Street', 'Block - 5', 'Agra', '560095', 'India');
 
@@ -48,8 +43,6 @@ VALUES (5, 'Alipiri Road', 'Block - 9', 'Tirupati', '560099', 'India');
 INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
 VALUES (5, 'Dollar street', 'Block - 3', 'Madanapalle', '560088', 'India');
 
--- Loading Data into "payment_cards" table 
--- for each buyer create exactly 1 payment card. (user_id is 1 2 3 4 5)
 INSERT INTO "payment_cards"("user_id", "name_on_card", "card_number", "cvv")
 VALUES (1, 'Sheetal S', '1234123412341234', '123');
 
@@ -65,7 +58,6 @@ VALUES (4, 'Shreetesh M', '4567456745674567', '456');
 INSERT INTO "payment_cards"("user_id", "name_on_card", "card_number", "cvv")
 VALUES (5, 'Kalidas', '5678567856785678', '567');
 
--- -- Loading Data into "sellers" table 
 INSERT INTO "sellers"("phone_number", "seller_name", "account_balance")
 VALUES ('1234567890', 'Aditi Singh', 5003);
 
@@ -81,7 +73,6 @@ VALUES ('1234567893', 'Rohith Sharma', 550);
 INSERT INTO "sellers"("phone_number", "seller_name", "account_balance")
 VALUES ('1234567894', 'Rahul Kl', 770);
 
--- Loading Data into "discounts" table 
 INSERT INTO "discounts"("name", "percent")
 VALUES ('FLAT50', 50);
 
@@ -111,11 +102,6 @@ VALUES ('UPTO30', 30);
 
 INSERT INTO "discounts"("name", "percent")
 VALUES ('EXTRA20OFF', 20);
-
-
---------------------------------------------------------------------------------------------------------------------------------
-
--- Loading Data into "products" table 
 
 INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id")
 VALUES('Blue Sofa set', 'https://m.media-amazon.com/images/I/91CQN4IIb0L._SX679_.jpg', 'The perfect Blue luxury sofas you can ever imagine! Confortable, durable and huge savings', 'furniture', 'stylestop', 1, 30000, 3, 1);
@@ -147,11 +133,6 @@ VALUES('Storage cabinet', 'https://m.media-amazon.com/images/I/71FhxOP3DoL._SX67
 INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id")
 VALUES('stool chairs', 'https://m.media-amazon.com/images/I/81VskLXdH4L._SX679_.jpg', 'Steadfast Leatherette Adjustable High Barstool, Adjustable Height Stool Chairs, Counter Height Swivel Bar Stools with backrest for Kitchen Island, Bar Chair, Counter Stool, Pack of 2', 'furniture', 'ddecor', 1, 3000, 4, 3);
 
-
-
------------------------------------------------------------------------
-
-
 INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id")
 VALUES('African Trivbal women art piece', 'https://m.media-amazon.com/images/I/81jZy7pSR7L._SX679_.jpg', ' Beautiful Finish Uniquely Hand Crafted Home Dcor African Tribal Women Art Piece (Set of 3, Multicolour)', 'show_pieces', 'stylestop', 1, 1000, 6, 1);
 
@@ -181,10 +162,6 @@ VALUES('Butterflies wall Sticker', 'https://m.media-amazon.com/images/I/61T2zjKP
 
 INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id")
 VALUES('Peacock Urli Bowl', 'https://m.media-amazon.com/images/I/61W560eJKaL._SX679_.jpg', 'The Modern Soul Peacock Urli Bowl Home Decor. Makes for a great festive gift, wedding gift.', 'show_pieces', 'stylestop', 1, 800, 6, 4);
-
-
-----------------------------------------------------
-
 
 INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id")
 VALUES('Bamboo Plant', 'https://m.media-amazon.com/images/I/51goUkNZtgL.jpg', 'Two Layer Lucky Bamboo plant with Big Round Glass Pot and Colored Jelly Balls(Green). MATERIAL: Natural Plants & Glass Pot, POT COLOR: Transparent', 'plants', 'stylestop', 1, 200, 6, 1);
@@ -216,8 +193,6 @@ VALUES('Hibiscus Red -Flower Plant', 'https://m.media-amazon.com/images/I/412VEf
 INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id")
 VALUES('Cherry Fruit Plant', 'https://m.media-amazon.com/images/I/71yX3NMW-rL._SX679_.jpg', ' Live Sweet and Sour Barbados Cherry Fruit Plant.This cherry is sour when unripe and slightly sweet when fully ripe.', 'plants', 'stylestop', 1, 450, 1, 4);
 
-----------------------------------------------------------------
-
 INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id")
 VALUES('Wall lamp', 'https://m.media-amazon.com/images/I/51qSlehR-cL.jpg', 'Designer Turkish Glass Wall Lamp for Living & Home Decoration Lamp. Material : Glass and Metal fitting wall lamp', 'lighting', 'stylestop', 1, 500, 3, 1);
 
@@ -228,7 +203,7 @@ INSERT INTO "products" ("name", "image", "description", "category", "brand", "se
 VALUES('Floor Lamp ', 'https://m.media-amazon.com/images/I/71rHq64PqhL._SX569_.jpg', 'Double Shelf Gold Color Metal Floor Lamp with Double Shelf in Beige Color Oval Shape Shade for Living Room (Big)Pack of 1', 'lighting', 'ddecor', 1, 3000, 5, 6);
 
 INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id")
-VALUES('Ceiling Lamp', 'https://m.media-amazon.com/images/I/61-onSWeFmL._SX569_.jpg', 'New Fancy Modern Ceiling Lamp for Living Room, Office,Bedroom Lamp with All Fixtures and Fitting Juicer3277. Light Source Type: Led; Size Name: Medium; Mounting Type: Double Circuit', 'lighting', 'stylestop', 1, 850, 7, 3);
+VALUES('Ceiling Lamp', 'https://m.media-amazon.com/images/I/61-onSWeFmL._SX569_.jpg', 'New Fancy Modern Ceiling Lamp for Living Room, Office,Bedroom Lamp with All Fixtures and Fitting Juicer3277. Light Source Type: Led, Size Name: Medium, Mounting Type: Double Circuit', 'lighting', 'stylestop', 1, 850, 7, 3);
 
 INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id")
 VALUES('wall sticker lamp', 'https://m.media-amazon.com/images/I/51VI3MljFFL.jpg', 'Wall Sticker Home Decoration LED Lamp- Pack of 10 Pieces. Its Soft And Gentle Light Is Good For Your Eyes', 'lighting', 'home_centre', 1, 400, 6, 9);

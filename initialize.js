@@ -6,7 +6,7 @@ const pool = require("./db");
 var initQueries = [];
 
 (async () => {
-  fs.readFileSync("./database.sql")
+  fs.readFileSync("./database_schemas/load_data.sql")
     .toString()
     .replace(/\r\n/g, "")
     .split(";")
@@ -17,18 +17,16 @@ var initQueries = [];
     });
 
   for (let i = 0; i < initQueries.length; i++) {
-    await pool.query(initQueries[i]).then(returned_data => {
-      console.log("Returned from Database\n", returned_data);
-    }).catch((error) => {
-      console.log("Error:", error);
-      console.log("Database could not be initialized successfully");
-      return;
-    });
-    console.log(i, "successful");
-    if (i === initQueries.length - 1) {
-      console.log("Database initialized successfully");
-      return;
-    }
+    await pool
+      .query(initQueries[i])
+      .then((returned_data) => {
+        // console.log("Returned from Database\n", returned_data);
+        console.log(i, "successful");
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+        console.log("Database could not be initialized successfully");
+        return;
+      });
   }
 })();
-
