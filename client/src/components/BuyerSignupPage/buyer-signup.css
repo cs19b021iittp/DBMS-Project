@@ -1,0 +1,65 @@
+.buyer-page {
+    height: 100vh;
+    overflow: hidden;
+    background-color: #f7f7f7;
+  }
+  
+  .buyer-page-strip {
+    background-color: #dedbd2;
+    height: 100vh;
+    margin-left: 50%;
+    width: 25%;
+  }
+  
+  .buyer-page-content {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  
+  .buyer-page-logo {
+    width: 15%;
+    margin: 20px;
+  }
+  
+  .buyer-page-flower {
+    vertical-align: middle;
+    width: 60%;
+    margin-left: 20%;
+  }
+  
+  .buyer-page-left {
+    flex: 1;
+  }
+
+  .buyer-page-middle {
+    flex: 0.2;
+  }
+  
+  .buyer-page-right {
+    flex: 1;
+  }
+  
+  
+  .buyer-page-welcome-text {
+    padding-top: 14%;
+    font-weight: normal;
+    font-size: 2em;
+  }
+  
+  .buyer-page-button {
+    text-decoration: none;
+    border: none;
+    font-size: 1.5em;
+    padding: 0.5em;
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+    border-radius: 1.25em;
+    cursor: pointer;
+  }
+  
