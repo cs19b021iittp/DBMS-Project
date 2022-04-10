@@ -2,19 +2,84 @@
 INSERT INTO "buyers"("phone_number", "first_name", "last_name", "wallet_balance")
 VALUES ('9876543210', 'Sheetal', 'Sharma', 4000.1);
 
+INSERT INTO "buyers"("phone_number", "first_name", "last_name", "wallet_balance")
+VALUES ('9876543211', 'Priyanka', 'Chpra', 6000.1);
+
+INSERT INTO "buyers"("phone_number", "first_name", "last_name", "wallet_balance")
+VALUES ('9876543212', 'Deepika', 'padukone', 2000.1);
+
+INSERT INTO "buyers"("phone_number", "first_name", "last_name", "wallet_balance")
+VALUES ('9876543213', 'Kareena', 'Kapoor', 5000.1);
+
+INSERT INTO "buyers"("phone_number", "first_name", "last_name", "wallet_balance")
+VALUES ('9876543214', 'Hritik', 'Roshan', 8000.1);
+
+
+
 -- Loading Data into "addresses" table 
 -- for each buyer create 2 addresses each. (user_id is 1 2 3 4 5)
 INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
 VALUES (1, 'Number 4 Teri Street', 'Block - 5', 'Agra', '560095', 'India');
+
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (1, 'Rajendra Rao Nagar', 'Block - 6', 'Delhi', '560096', 'India');
+
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (2, 'Anna Nagar', 'Block - 1', 'Madhurai', '560091', 'India');
+
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (2, 'Kollapatty Street', 'Block - 2', 'Salem', '560092', 'India');
+
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (3, 'Banjara Hills', 'Block - 3', 'Hyderabad', '560093', 'India');
+
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (3, 'Bank Colony', 'Block - 4', 'Khammam', '560094', 'India');
+
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (4, 'Kormangla colony', 'Block - 7', 'Banglore', '560097', 'India');
+
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (4, 'Gokulam Road', 'Block - 8', 'Mysore', '560098', 'India');
+
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (5, 'Alipiri Road', 'Block - 9', 'Tirupati', '560099', 'India');
+
+INSERT INTO "addresses"("user_id", "address_line1", "address_line2", "city", "pincode", "country")
+VALUES (5, 'Dollar street', 'Block - 3', 'Madanapalle', '560088', 'India');
 
 -- Loading Data into "payment_cards" table 
 -- for each buyer create exactly 1 payment card. (user_id is 1 2 3 4 5)
 INSERT INTO "payment_cards"("user_id", "name_on_card", "card_number", "cvv")
 VALUES (1, 'Sheetal S', '1234123412341234', '123');
 
+INSERT INTO "payment_cards"("user_id", "name_on_card", "card_number", "cvv")
+VALUES (2, 'Debeshee D', '2345234523452345', '234');
+
+INSERT INTO "payment_cards"("user_id", "name_on_card", "card_number", "cvv")
+VALUES (3, 'Harshitha K', '3456345634563456', '345');
+
+INSERT INTO "payment_cards"("user_id", "name_on_card", "card_number", "cvv")
+VALUES (4, 'Shreetesh M', '4567456745674567', '456');
+
+INSERT INTO "payment_cards"("user_id", "name_on_card", "card_number", "cvv")
+VALUES (5, 'Kalidas', '5678567856785678', '567');
+
 -- -- Loading Data into "sellers" table 
 INSERT INTO "sellers"("phone_number", "seller_name", "account_balance")
 VALUES ('1234567890', 'Aditi Singh', 5003);
+
+INSERT INTO "sellers"("phone_number", "seller_name", "account_balance")
+VALUES ('1234567891', 'Dhoni Ms', 8000);
+
+INSERT INTO "sellers"("phone_number", "seller_name", "account_balance")
+VALUES ('1234567892', 'Virat Kohli', 1000);
+
+INSERT INTO "sellers"("phone_number", "seller_name", "account_balance")
+VALUES ('1234567893', 'Rohith Sharma', 550);
+
+INSERT INTO "sellers"("phone_number", "seller_name", "account_balance")
+VALUES ('1234567894', 'Rahul Kl', 770);
 
 -- Loading Data into "discounts" table 
 INSERT INTO "discounts"("name", "percent")
