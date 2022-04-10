@@ -22,6 +22,7 @@ const theme = {
           speechSynthesis={{ enable: true, lang: 'en' }}
           headerTitle="Chat with the Tsumani Deal Bot"
           recognitionEnable={true}
+          floating = {true}
           steps = {[
             {
                 id: '1',
