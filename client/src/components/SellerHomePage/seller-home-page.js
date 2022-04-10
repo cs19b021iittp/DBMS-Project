@@ -18,7 +18,7 @@ function SellerHomePage() {
   const [image, setImage] = useState(null);
   const [quantity, setQuantity] = useState(null);
   const [price, setPrice] = useState(null);
-  const [discount, setDiscount] = useState("Select Discount");
+  const [discount, setDiscount] = useState("None");
   const [description, setDescription] = useState("");
 
   const changeCategory = (e) => {
@@ -39,7 +39,7 @@ function SellerHomePage() {
       <Menu.Item>
         <div
           onClick={() => {
-            setDiscount("BASIC10");
+            setDiscount("OFFER10");
           }}
         >
           10%
@@ -48,7 +48,7 @@ function SellerHomePage() {
       <Menu.Item>
         <div
           onClick={() => {
-            setDiscount("EXCITING20");
+            setDiscount("EXTRA20OFF");
           }}
         >
           20%
@@ -57,7 +57,25 @@ function SellerHomePage() {
       <Menu.Item>
         <div
           onClick={() => {
-            setDiscount("INSANE50");
+            setDiscount("SUPER30");
+          }}
+        >
+          30%
+        </div>
+      </Menu.Item>
+      <Menu.Item>
+        <div
+          onClick={() => {
+            setDiscount("HOTPINKSALE");
+          }}
+        >
+          40%
+        </div>
+      </Menu.Item>
+      <Menu.Item>
+        <div
+          onClick={() => {
+            setDiscount("FLAT50");
           }}
         >
           50%
