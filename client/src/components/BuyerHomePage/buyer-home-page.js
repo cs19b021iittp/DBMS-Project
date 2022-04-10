@@ -1,11 +1,14 @@
 //@ts-check
 
 import React, { useEffect, useState } from "react";
-import Chatbot from "react-chatbot-kit";
+/* import Chatbot from "react-chatbot-kit";
 import "react-chatbot-kit/build/main.css";
 import config from "../../chatbot2/config";
 import MessageParser from "../../chatbot2/MessageParser";
-import ActionProvider from "../../chatbot2/ActionProvider";
+import ActionProvider from "../../chatbot2/ActionProvider"; */
+
+import Chatbot from '../../chatbot/Chatbot';
+//import { ThemeProvider } from 'styled-components';
 
 import "./buyer-home-page.css";
 import Navbar from "../Navbar/buyer-navbar";
@@ -14,6 +17,9 @@ import flower from "../../assets/dashboard_flower.svg";
 import { Checkbox } from "antd";
 import { Radio } from "antd";
 import { Link } from "react-router-dom";
+//import {steps, theme} from "../../chatbot/steps";
+
+
 
 const Card = (props) => {
   return (
@@ -142,15 +148,13 @@ function BuyerHomePage() {
             />
           </div>
         </div>
-        <div className="mid-panel">
+        <div className="mid-panel"> 
           <div style={{ float: "left" }}>
             <Card
               image={sofa}
               name="Single Sofa"
               price="3400"
               discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
               brand="Home Centre"
               category="Furniture"
               description="A single sofa with a modern design. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes.. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes."
@@ -244,7 +248,18 @@ function BuyerHomePage() {
           </div>
         </div>
         <div className="right-panel">
-          <img src={flower} style={{ width: "80%" }}></img>
+        <div className="chatbot">
+          <Chatbot />
+        {/* <ThemeProvider theme={theme}>
+          <ChatBot 
+          speechSynthesis={{ enable: true, lang: 'en' }}
+          headerTitle="Chat with the Tsumani Deal Bot"
+          recognitionEnable={true}
+          steps={steps} 
+          />
+        </ThemeProvider>  */}
+        </div>
+          {/* <img src={flower} style={{ width: "80%" }}></img> */}
         </div>
       </div>
     </div>
