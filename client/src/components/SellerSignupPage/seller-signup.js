@@ -53,7 +53,9 @@ function AuthenticationPage({ match }) {
       <div className="seller-page-strip"></div>
       <div className="seller-page-content">
         <div className="seller-page-left">
+            <div style={{width: '100%'}}>
           <img src={logo} className="seller-page-logo" />
+          </div>
           <img src={auth_flower} className="seller-page-flower" />
         </div>
         <div className="seller-page-right">
@@ -64,7 +66,7 @@ function AuthenticationPage({ match }) {
               <Input
                 placeholder="Name"
                 //onChange={(e) => setPhone(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
             <br></br>
             <br></br>

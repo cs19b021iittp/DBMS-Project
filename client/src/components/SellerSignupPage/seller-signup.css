@@ -25,6 +25,9 @@
   .seller-page-logo {
     width: 15%;
     margin: 20px;
+    position: relative;
+    top: 0;
+    left: 0;
   }
   
   .seller-page-flower {
@@ -34,11 +37,11 @@
   }
   
   .seller-page-left {
-    flex: 1;
+    flex: 0.5;
   }
   
   .seller-page-right {
-    flex: 1;
+    flex: 0.5;
   }
   
   .seller-page-title-first {
