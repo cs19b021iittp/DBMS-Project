@@ -7,6 +7,7 @@ import cart from "../../assets/cart.svg";
 import search from "../../assets/search.svg";
 import "./navbar.css";
 import { Input, Space } from "antd";
+import { searchFunction } from "../../functionality/search.js";
 import "antd/dist/antd.css";
 
 const BuyerNavbar = () => {
@@ -31,7 +32,8 @@ const BuyerNavbar = () => {
           }}
         />
         <img
-          onClick={(e) => {
+          onClick={(e) => {searchFunction(searchValue)}}
+          /* onClick={(e) => {
             fetch("/api/query", {
               method: "POST",
               headers: {
@@ -53,7 +55,7 @@ const BuyerNavbar = () => {
               .catch((error) => {
                 console.log(error);
               });
-          }}
+          }} */
           src={search}
           style={{ height: "30px", marginLeft: "10px", cursor: "pointer" }}
         />
