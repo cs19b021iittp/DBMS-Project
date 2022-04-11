@@ -50,7 +50,6 @@ function AuthenticationPage({ match }) {
 
   return (
     <div className="buyer-page" style={{ overflow: "hidden" }}>
-      <div className="buyer-page-strip"></div>
       <div className="buyer-page-content">
         <div className="buyer-page-left">
           <img src={logo} className="buyer-page-logo" />
@@ -58,61 +57,61 @@ function AuthenticationPage({ match }) {
         </div>
         <div className="buyer-page-middle">
           <div style={{ textAlign: "center", marginTop: "10%" }}>
-            <div className="buyer-page-welcome-text">
+            <div className="buyer-page-text">
               First Name
             </div>
               <Input
                 placeholder="First Name"
                // onChange={(e) => setfname(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
-              <div className="buyer-page-welcome-text">
+              <div className="buyer-page-text">
               Last Name
             </div>
               <Input
                 placeholder="Last Name"
                 //onChange={(e) => setlname(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
-              <div className="buyer-page-welcome-text">
+              <div className="buyer-page-text">
               Address Line 1
             </div>  
               <Input
                 placeholder="Address Line 1"
                // onChange={(e) => setaddline1(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
-              <div className="buyer-page-welcome-text">
+              <div className="buyer-page-text">
               Address Line 2
             </div>   
               <Input
                 placeholder="Address Line 2"
                 //onChange={(e) => setaddline2(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
-              <div className="buyer-page-welcome-text">
+              <div className="buyer-page-text">
               City
             </div>
               <Input
                 placeholder="City"
                 //onChange={(e) => setcity(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
-              <div className="buyer-page-welcome-text">
+              <div className="buyer-page-text">
               Pincode
             </div>
               <Input
                 placeholder="Pincode"
                 //onChange={(e) => setpincode(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
-              <div className="buyer-page-welcome-text">
+              <div className="buyer-page-text">
               Country
             </div>
               <Input
                 placeholder="Country"
                 //onChange={(e) => setcountry(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
             <br></br>
             <br></br>
@@ -121,30 +120,31 @@ function AuthenticationPage({ match }) {
 
         <div className="buyer-page-right">
           <div style={{ textAlign: "center", marginTop: "10%" }}>
-              <div className="buyer-page-welcome-text">
+              <div className="buyer-page-text">
               Name on Card
             </div>
               <Input
                 placeholder="Name on Card"
                 //onChange={(e) => setnameoncard(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
-              <div className="buyer-page-welcome-text">
+              <div className="buyer-page-text">
               Card Number
             </div>
               <Input
                 placeholder="Card Number"
                 //onChange={(e) => setcardnumber(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
-              <div className="buyer-page-welcome-text">
+              <div className="buyer-page-text">
               CVV
             </div>
               <Input
                 placeholder="CVV"
                 //onChange={(e) => setcvv(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "218px" }}
+                style={{ borderRadius: "5px", height: "40px", width: "300px" }}
               />
+              <div style={{height: '35vh'}}></div>
                <button
               className="buyer-page-button"
               id="buyer-signin-button"
