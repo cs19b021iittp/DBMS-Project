@@ -22,11 +22,7 @@ class App extends Component {
       <Router>
         <Switch>
           {/* <Route exact path="/" component={OtpPayment} /> */}
-<<<<<<< HEAD
-          <Route exact path="/" component={SellerSignupPage} />
-=======
           <Route exact path="/" component={BuyerHomePage} />
->>>>>>> 4251666a5def7e9ee52a56c261e73f4e2a9e9ffe
           <Route exact path="/item" component={ItemPage} />
           {/* <Route exact path="/" component={LandingPage} /> */}
           <Route exact path="/auth/:id" component={AuthenticationPage} />
