@@ -24,7 +24,7 @@ CREATE TABLE "payment_cards" (
   "user_id" int,
   "name_on_card" varchar,
   "card_number" char(16),
-  "cvv" char(3)
+  "cvv" varchar
 );
 
 DROP TABLE IF EXISTS "order_items" CASCADE;

@@ -7,6 +7,9 @@ import logo from "../../assets/logo.svg";
 import auth_flower from "../../assets/auth_flower.svg";
 import { Input, Space } from "antd";
 import "antd/dist/antd.css";
+import { queryExchange } from "../../functionality/utils";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AuthenticationPage({ match }) {
   const [curuser, setCuruser] = useState("No user is logged in");
@@ -66,22 +69,23 @@ function AuthenticationPage({ match }) {
   // function that sends otp
   const verifyPhone = async (e) => {
     setupCaptcha();
-    // let phoneNumber = phone;
-    let phoneNumber = "9876543210";
-    if (phoneNumber[0] != "+") phoneNumber = "+91" + phoneNumber;
+    let phoneNumber = phone;
+    // let phoneNumber = "9876543210";
     setPhone(phoneNumber);
+    if (phoneNumber[0] != "+") phoneNumber = "+91" + phoneNumber;
+    // setPhone(phoneNumber);
     const appVerifier = window.recaptchaVerifier;
 
     // sending the OTP
     firebase
       .auth()
       .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then(function (confirmationResult) {
+      .then(function(confirmationResult) {
         // SMS sent
         window.confirmationResult = confirmationResult;
         console.log("OTP is sent");
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
@@ -93,17 +97,47 @@ function AuthenticationPage({ match }) {
     let otpConfirm = window.confirmationResult;
     otpConfirm
       .confirm(otpInput)
-      .then(async function (result) {
+      .then(async function(result) {
         // User signed in successfully.
         console.log("Successful log in");
+
         localStorage.setItem(
           "userType",
           match.params.id === "0" ? "buyer" : "seller"
         );
-        window.location =
-          match.params.id === "0" ? "/buyer-dashboard" : "/seller-dashboard";
+
+        localStorage.setItem("phone", phone);
+
+        if (match.params.id === "0") {
+          const users = await queryExchange(
+            'select phone_number from "buyers"'
+          );
+          var phoneNumbers = [];
+          users.rows.forEach((user) => {
+            phoneNumbers.push(user.phone_number);
+          });
+
+          if (phoneNumbers.includes(phone)) {
+            window.location = "/buyer-home";
+          } else {
+            window.location = "/buyer-signup";
+          }
+        } else {
+          const users = await queryExchange(
+            'select phone_number from "sellers"'
+          );
+          var phoneNumbers = [];
+          users.rows.forEach((user) => {
+            phoneNumbers.push(user.phone_number);
+          });
+          if (phoneNumbers.includes(phone)) {
+            window.location = "/seller-home";
+          } else {
+            window.location = "/seller-signup";
+          }
+        }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
         alert("Incorrect OTP");
       });
@@ -138,6 +172,7 @@ function AuthenticationPage({ match }) {
             </Space>
             <br></br>
             <br></br>
+            <ToastContainer autoClose={5000} />
             <button
               className="auth-page-button"
               id="auth-signin-button"
@@ -151,6 +186,9 @@ function AuthenticationPage({ match }) {
                     alert("Please enter a valid phone number");
                   }
                 } else {
+                  toast.info("Checking the database...", {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
                   verifyOtp(e);
                 }
               }}

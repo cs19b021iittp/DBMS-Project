@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aes-js": "^3.1.2",
     "antd": "^4.19.3",
     "axios": "^0.26.1",
     "firebase": "^8.6.7",
@@ -11,6 +12,7 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "1.0.17",
     "react-simple-chatbot": "^0.6.1",
+    "react-toastify": "^8.2.0",
     "styled-components": "^4.0.0"
   },
   "scripts": {
