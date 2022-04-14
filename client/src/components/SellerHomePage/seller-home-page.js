@@ -7,22 +7,75 @@ import { Radio } from "antd";
 import { Input, Space } from "antd";
 import "antd/dist/antd.css";
 import { Menu, Dropdown, Button } from "antd";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { queryExchange } from "../../functionality/utils";
 
 const { TextArea } = Input;
 
 function SellerHomePage() {
-  const [balance, setBalance] = useState(100);
-  const [sellerName, setSellerName] = useState("Seller Name");
-  const [category, setCategory] = useState("Furniture");
+  const [balance, setBalance] = useState("");
+  const [sellerName, setSellerName] = useState("Name");
+  const [sellerId, setSellerId] = useState("");
+  const [category, setCategory] = useState("furniture");
+  const [brand, setBrand] = useState("home_centre");
   const [prodName, setProductName] = useState("");
-  const [image, setImage] = useState(null);
-  const [quantity, setQuantity] = useState(null);
-  const [price, setPrice] = useState(null);
+  const [image, setImage] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("None");
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+    if (
+      localStorage.getItem("userType") !== null &&
+      localStorage.getItem("userType") !== undefined &&
+      localStorage.getItem("userType") === "buyer"
+    ) {
+      window.location.href = "/buyer-home";
+    } else if (
+      localStorage.getItem("userType") === null ||
+      localStorage.getItem("userType") === undefined
+    ) {
+      window.location.href = "/";
+    }
+  }, []);
+
+  useEffect(() => {
+    async function fetchDetails() {
+      var query = `SELECT id FROM "sellers" WHERE phone_number = '${localStorage.getItem(
+        "phone"
+      )}'`;
+      var sellerId = await queryExchange(query);
+      sellerId = sellerId.rows[0].id;
+      setSellerId(sellerId);
+      query = `SELECT seller_name FROM "sellers" WHERE id = ${sellerId}`;
+      var name = await queryExchange(query);
+      setSellerName(name.rows[0].seller_name);
+      query = `SELECT account_balance FROM "sellers" WHERE id = ${sellerId}`;
+      var balance = await queryExchange(query);
+      setBalance(balance.rows[0].account_balance);
+    }
+
+    fetchDetails();
+  }, []);
+
   const changeCategory = (e) => {
     setCategory(e.target.value);
+  };
+
+  const changeBrand = (e) => {
+    setBrand(e.target.value);
+  };
+
+  const uploadImage = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = function(ev) {
+        setImage(ev.target.result);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   const menu = (
@@ -94,7 +147,15 @@ function SellerHomePage() {
           <div className="wallet-balance" style={{ fontSize: "2em" }}>
             {balance}
           </div>
-          <button className="logout-button">Logout</button>
+          <button
+            className="logout-button"
+            onClick={() => {
+              localStorage.clear();
+              window.location.href = "/";
+            }}
+          >
+            Logout
+          </button>
         </div>
         <div className="seller-right-panel">
           <div className="seller-right-panel-left">
@@ -113,12 +174,27 @@ function SellerHomePage() {
               </div>
               <br></br>
               <Radio.Group onChange={changeCategory} value={category}>
-                <Radio value={"Furniture"}>Furniture</Radio>
-                <Radio value={"Indoor Plants"}>Indoor Plants</Radio>
+                <Radio value={"furniture"}>Furniture</Radio>
+                <Radio value={"plants"}>Indoor Plants</Radio>
                 <br></br>
                 <br></br>
-                <Radio value={"Lighting"}>Lighting&nbsp;</Radio>
-                <Radio value={"Show Pieces"}>Show Pieces</Radio>
+                <Radio value={"lighting"}>Lighting&nbsp;</Radio>
+                <Radio value={"show_pieces"}>Show Pieces</Radio>
+              </Radio.Group>
+              <br></br>
+              <br></br>
+              <div
+                style={{
+                  fontSize: "1.5em",
+                  fontWeight: "600",
+                }}
+              >
+                Select Brand
+              </div>
+              <Radio.Group onChange={changeBrand} value={brand}>
+                <Radio value={"home_centre"}>Home Centre</Radio>
+                <Radio value={"ddecor"}>d-Decor</Radio>
+                <Radio value={"stylestop"}>StyleStop</Radio>
               </Radio.Group>
               <br></br>
               <br></br>
@@ -146,30 +222,14 @@ function SellerHomePage() {
               >
                 Upload image of the product
               </div>
-              <input type="file" />
+              <input type="file" onChange={uploadImage} />
               <br></br>
               <br></br>
               <div className="image-display">
-                {image ? (
+                {image !== "" ? (
                   <img src={image} alt={image} style={{ width: "100%" }} />
                 ) : null}
               </div>
-
-              <br></br>
-              <div
-                style={{
-                  fontSize: "1.5em",
-                  fontWeight: "600",
-                }}
-              >
-                Enter quantity of the product
-              </div>
-              <br></br>
-              <Input
-                placeholder="Enter quantity"
-                onChange={(e) => setQuantity(e.target.value)}
-                style={{ borderRadius: "5px", height: "40px", width: "150px" }}
-              />
             </div>
           </div>
           <div className="seller-right-panel-right">
@@ -181,10 +241,31 @@ function SellerHomePage() {
                     fontWeight: "600",
                   }}
                 >
+                  Enter quantity of the product
+                </div>
+                <br></br>
+                <Input
+                  type="number"
+                  placeholder="Enter quantity"
+                  onChange={(e) => setQuantity(e.target.value)}
+                  style={{
+                    borderRadius: "5px",
+                    height: "40px",
+                    width: "150px",
+                  }}
+                />
+                <br></br>
+                <div
+                  style={{
+                    fontSize: "1.5em",
+                    fontWeight: "600",
+                  }}
+                >
                   Enter base price
                 </div>
                 <br></br>
                 <Input
+                  type="number"
                   placeholder="Enter base price"
                   onChange={(e) => setPrice(e.target.value)}
                   style={{
@@ -210,7 +291,6 @@ function SellerHomePage() {
               </div>
             </div>
             <br></br>
-            <br></br>
             <div
               style={{
                 fontSize: "1.5em",
@@ -221,13 +301,60 @@ function SellerHomePage() {
             </div>
             <br></br>
             <TextArea
-              rows={15}
+              rows={10}
               placeholder="Enter Description and features"
               onChange={(e) => setDescription(e.target.value)}
             />
             <br></br>
             <br></br>
-            <button className="add-item">Add Item</button>
+            <ToastContainer autoClose={5000} />
+            <button
+              className="add-item"
+              onClick={async () => {
+                if (
+                  category === "" ||
+                  prodName === "" ||
+                  price === "" ||
+                  quantity === "" ||
+                  description === "" ||
+                  image === ""
+                ) {
+                  toast.error("Please fill all the fields", {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
+                } else if (parseInt(quantity) <= 0 || parseInt(price) <= 0) {
+                  toast.error("Please enter valid quantity or price", {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
+                } else {
+                  toast.info("Creating records...", {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
+                  var query = `SELECT id FROM "discounts" WHERE name='${discount}'`;
+                  var discountId = await queryExchange(query);
+                  try {
+                    discountId = discountId.rows[0].id;
+                  } catch (err) {
+                    discountId = "NULL";
+                  }
+                  query = `INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id") VALUES('${prodName}', '${image}', '${description}', ('${category}'), ('${brand}'), ${sellerId}, ${price}, ${quantity}, ${discountId});`;
+                  const response = await queryExchange(query);
+                  if (response.name && response.name === "error") {
+                    console.log(response);
+                    toast.error("An error occured", {
+                      position: toast.POSITION.TOP_RIGHT,
+                    });
+                  } else {
+                    toast.success("Product added successfully", {
+                      position: toast.POSITION.TOP_RIGHT,
+                    });
+                    window.location.reload();
+                  }
+                }
+              }}
+            >
+              Add Item
+            </button>
           </div>
         </div>
       </div>
