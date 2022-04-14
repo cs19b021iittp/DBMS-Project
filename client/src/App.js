@@ -31,6 +31,8 @@ class App extends Component {
           <Route exact path="/seller-signup" component={SellerSignupPage} />
           <Route exact path="/seller-home" component={SellerHomePage} />
           <Route exact path="/seller-update" component={SellerUpdatePage} />
+          <Route exact path="/buyer-cart" component={CartPage} />
+          <Route exact path="/buyer-account" component={BuyerAccountPage} />
         </Switch>
       </Router>
     );

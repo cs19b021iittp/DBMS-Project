@@ -8,7 +8,7 @@ var query1 =
 
 var query2 = 'INSERT INTO "test"("user_id")\nVALUES (2)';
 
-var query3 = `SELECT * FROM "discounts"`;
+var query3 = `SELECT * FROM "cart_items"`;
 var query5 = `ALTER TABLE "payment_cards" ALTER COLUMN "cvv" TYPE VARCHAR`;
 var query4 = `DELETE from "products" WHERE name = '{prodName}'`;
 var query6 = `SELECT seller_name FROM "sellers" WHERE id = 5`;

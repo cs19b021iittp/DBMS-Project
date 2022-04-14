@@ -32,7 +32,9 @@ const BuyerNavbar = () => {
           }}
         />
         <img
-          onClick={(e) => {searchFunction(searchValue)}}
+          onClick={(e) => {
+            searchFunction(searchValue);
+          }}
           /* onClick={(e) => {
             fetch("/api/query", {
               method: "POST",
@@ -63,11 +65,17 @@ const BuyerNavbar = () => {
       <span className="buyer-navbar-icons">
         <div>
           <img
+            onClick={() => {
+              window.location.href = "/buyer-account";
+            }}
             src={user}
             alt="logo"
             style={{ width: "15%", marginLeft: "20%", cursor: "pointer" }}
           />
           <img
+            onClick={() => {
+              window.location.href = "/buyer-cart";
+            }}
             src={cart}
             alt="logo"
             style={{ width: "15%", marginLeft: "15%", cursor: "pointer" }}

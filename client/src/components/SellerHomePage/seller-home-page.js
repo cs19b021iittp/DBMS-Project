@@ -49,12 +49,10 @@ function SellerHomePage() {
       var sellerId = await queryExchange(query);
       sellerId = sellerId.rows[0].id;
       setSellerId(sellerId);
-      query = `SELECT seller_name FROM "sellers" WHERE id = ${sellerId}`;
-      var name = await queryExchange(query);
-      setSellerName(name.rows[0].seller_name);
-      query = `SELECT account_balance FROM "sellers" WHERE id = ${sellerId}`;
-      var balance = await queryExchange(query);
-      setBalance(balance.rows[0].account_balance);
+      query = `SELECT seller_name, account_balance FROM "sellers" WHERE id = ${sellerId}`;
+      var result = await queryExchange(query);
+      setSellerName(result.rows[0].seller_name);
+      setBalance(result.rows[0].account_balance);
     }
 
     fetchDetails();
