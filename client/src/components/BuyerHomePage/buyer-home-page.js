@@ -12,6 +12,9 @@ import { Checkbox } from "antd";
 import { Radio } from "antd";
 import { Link } from "react-router-dom";
 //import {steps, theme} from "../../chatbot/steps";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { queryExchange } from "../../functionality/utils";
 
 const Card = (props) => {
   return (
@@ -27,13 +30,15 @@ const Card = (props) => {
           description: props.description,
           brand: props.brand,
           category: props.category,
+          seller_id: props.sellerId,
+          id: props.id,
         },
       }}
     >
       <div className="card-buyer">
         <div>
           <div style={{ textAlign: "center" }}>
-            <img src={props.image} style={{ width: "120px" }}></img>
+            <img src={props.image} style={{ height: "110px" }}></img>
           </div>
           <div className="card-title">{props.name}</div>
           <div className="card-price">
@@ -41,12 +46,23 @@ const Card = (props) => {
               Rs {props.price}
             </div>
             <div style={{ flex: 1, color: "#edafb8", width: "100%" }}>
-              {props.discount === "BASIC10"
+              {props.discount === "OFFER10"
                 ? "10% OFF"
-                : props.discount === "EXTREME20"
+                : props.discount === "EXTRA20OFF" ||
+                  props.discount === "SUMMER_SALE"
                 ? "20% OFF"
-                : props.discount === "INSANE50"
+                : props.discount === "SUPER30" || props.discount === "UPTO30"
+                ? "30% OFF"
+                : props.discount === "HOTPINKSALE"
+                ? "40% OFF"
+                : props.discount === "FLAT50"
                 ? "50% OFF"
+                : props.discount === "MEGADEAL"
+                ? "80% OFF"
+                : props.discount === "GREATER60"
+                ? "60% OFF"
+                : props.discount === "BUMPER_DISCOUNT"
+                ? "70% OFF"
                 : "NONE"}
             </div>
           </div>
@@ -61,6 +77,19 @@ function BuyerHomePage() {
   const [brand, setBrand] = useState([]);
   const [price, setPrice] = useState("");
   const [sortPrice, setSortPrice] = useState("");
+  const [items, setItems] = useState([]);
+  const [discountMapping, setDiscounts] = useState(null);
+
+  var categories = new Map();
+  categories.set("furniture", "Furniture");
+  categories.set("lighting", "Lighting");
+  categories.set("plants", "Indoor Plants");
+  categories.set("show_pieces", "Show Pieces");
+
+  var brands = new Map();
+  brands.set("home_centre", "Home Centre");
+  brands.set("ddecor", "d-Decor");
+  brands.set("stylestop", "StyleStop");
 
   const categoryOptions = [
     { label: "Furniture", value: "Furniture" },
@@ -74,6 +103,26 @@ function BuyerHomePage() {
     { label: "d-Decor", value: "d-Decor" },
     { label: "StyleStop", value: "StyleStop" },
   ];
+
+  useEffect(() => {
+    async function fetchDetails() {
+      toast.info("Fetching items...", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      var query = `SELECT * FROM "discounts"`;
+      var discounts = await queryExchange(query);
+      var discountsMap = new Map();
+      discounts.rows.forEach((discount) => {
+        discountsMap.set(discount.id, discount.name);
+      });
+      setDiscounts(discountsMap);
+      query = `SELECT * FROM "products"`;
+      var list = await queryExchange(query);
+      setItems(list.rows);
+    }
+
+    fetchDetails();
+  }, []);
 
   function onChangeCategory(categories) {
     console.log(categories);
@@ -140,104 +189,27 @@ function BuyerHomePage() {
             />
           </div>
         </div>
+        <ToastContainer autoClose={5000} />
         <div className="mid-panel">
-          <div style={{ float: "left" }}>
-            <Card
-              image={sofa}
-              name="Single Sofa"
-              price="3400"
-              discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
-              description="A single sofa with a modern design. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes.. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes."
-            />
-          </div>
-          <div style={{ float: "left" }}>
-            <Card
-              image={sofa}
-              name="Single Sofa"
-              price="3400"
-              discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
-              description="A single sofa with a modern design. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes."
-            />
-          </div>
-          <div style={{ float: "left" }}>
-            <Card
-              image={sofa}
-              name="Single Sofa"
-              price="3400"
-              discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
-              description="A single sofa with a modern design. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes."
-            />
-          </div>
-          <div style={{ float: "left" }}>
-            <Card
-              image={sofa}
-              name="Single Sofa"
-              price="3400"
-              discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
-              description="A single sofa with a modern design. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes."
-            />
-          </div>
-          <div style={{ float: "left" }}>
-            <Card
-              image={sofa}
-              name="Single Sofa"
-              price="3400"
-              discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
-              description="A single sofa with a modern design. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes."
-            />
-          </div>
-          <div style={{ float: "left" }}>
-            <Card
-              image={sofa}
-              name="Single Sofa"
-              price="3400"
-              discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
-              description="A single sofa with a modern design. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes."
-            />
-          </div>
-          <div style={{ float: "left" }}>
-            <Card
-              image={sofa}
-              name="Single Sofa"
-              price="3400"
-              discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
-              description="A single sofa with a modern design. It is made of high quality wood and has a modern look. It is available in different colors. The sofa is available in two sizes."
-            />
-          </div>
-          <div style={{ float: "left" }}>
-            <Card
-              image={sofa}
-              name="Single Sofa"
-              price="3400"
-              discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
-            />
-          </div>
-          <div style={{ float: "left" }}>
-            <Card
-              image={sofa}
-              name="Single Sofa"
-              price="3400"
-              discount="BASIC10"
-              brand="Home Centre"
-              category="Furniture"
-            />
-          </div>
+          {items.map((e) => {
+            console.log(e.discount);
+            return (
+              <div style={{ float: "left" }}>
+                <Card
+                  id={e.id}
+                  sellerId={e.seller_id}
+                  left_in_stock={e.left_in_stock}
+                  image={e.image}
+                  name={e.name}
+                  price={e.price}
+                  discount={discountMapping.get(e.discount_id)}
+                  brand={brands.get(e.brand)}
+                  category={categories.get(e.category)}
+                  description={e.description}
+                />
+              </div>
+            );
+          })}
         </div>
         <div className="right-panel">
           <div className="chatbot">

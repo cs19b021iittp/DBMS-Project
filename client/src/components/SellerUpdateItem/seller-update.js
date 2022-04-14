@@ -314,6 +314,7 @@ function SellerUpdatePage() {
             className="logout-button"
             onClick={() => {
               localStorage.clear();
+              window.location.href = "/";
             }}
           >
             Logout

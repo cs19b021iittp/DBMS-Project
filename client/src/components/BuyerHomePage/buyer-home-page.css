@@ -4,11 +4,11 @@
 }
 
 .left-panel {
-  flex: 0.2;
+  flex: 0.15;
 }
 
 .mid-panel {
-  flex: 0.5;
+  flex: 0.55;
   height: 90vh;
   overflow: scroll;
   -ms-overflow-style: none;
@@ -40,12 +40,12 @@
 }
 
 .card-buyer {
-  width: 200px !important;
-  height: 200px !important;
+  width: 215px !important;
+  height: 230px !important;
   border-radius: 5px;
   background-color: #f7e1d7;
   text-align: center;
-  margin: 20px;
+  margin: 15px;
   padding: 10px;
   cursor: pointer;
 }
