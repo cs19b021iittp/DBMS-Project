@@ -26,7 +26,7 @@ CREATE TABLE "payment_cards" (
   "card_number" char(16),
   "cvv" varchar
 );
-
+ 
 DROP TABLE IF EXISTS "order_items" CASCADE;
 CREATE TABLE "order_items" (
   "id" SERIAL PRIMARY KEY,
@@ -65,7 +65,7 @@ DROP TABLE IF EXISTS "discounts" CASCADE;
 CREATE TABLE "discounts" (
   "id" SERIAL PRIMARY KEY,
   "name" varchar,
-  "percent" decimal CHECK("percent" > 0.0)
+  "percent" decimal CHECK("percent" >= 0.0)
 );
 
 DROP TABLE IF EXISTS "cart_items" CASCADE;

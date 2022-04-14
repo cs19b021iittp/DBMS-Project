@@ -16,11 +16,17 @@ const SellerNavbar = () => {
       <span className="buyer-navbar-icons" style={{ marginTop: "15px" }}>
         <div>
           <img
+            onClick={() => {
+              window.location.href = "/seller-home";
+            }}
             src={upload}
             alt="logo"
             style={{ width: "8%", marginLeft: "25%", cursor: "pointer" }}
           />
           <img
+            onClick={() => {
+              window.location.href = "/seller-update";
+            }}
             src={menu}
             alt="logo"
             style={{ width: "8%", marginLeft: "5%", cursor: "pointer" }}

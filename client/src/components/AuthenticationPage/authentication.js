@@ -23,13 +23,13 @@ function AuthenticationPage({ match }) {
       localStorage.getItem("userType") !== undefined &&
       localStorage.getItem("userType") === "seller"
     ) {
-      window.location = "/seller-dashboard";
+      window.location = "/seller-home";
     } else if (
       localStorage.getItem("userType") !== null &&
       localStorage.getItem("userType") !== undefined &&
       localStorage.getItem("userType") === "buyer"
     ) {
-      window.location = "/buyer-dashboard";
+      window.location = "/buyer-home";
     }
   }, []);
 
