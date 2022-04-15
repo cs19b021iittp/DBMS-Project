@@ -15,6 +15,21 @@ const ItemPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [buyerId, setBuyerId] = useState("");
 
+  useEffect(() => {
+    if (
+      localStorage.getItem("userType") !== null &&
+      localStorage.getItem("userType") !== undefined &&
+      localStorage.getItem("userType") === "seller"
+    ) {
+      window.location.href = "/seller-home";
+    } else if (
+      localStorage.getItem("userType") === null ||
+      localStorage.getItem("userType") === undefined
+    ) {
+      window.location.href = "/";
+    }
+  }, []);
+
   const addToCart = async () => {
     if (quantity <= 0) {
       toast.error("Quantity cannot be less than 1", {

@@ -22,6 +22,21 @@ const BuyerAccountPage = () => {
   const [buyerId, setBuyerId] = useState("");
 
   useEffect(() => {
+    if (
+      localStorage.getItem("userType") !== null &&
+      localStorage.getItem("userType") !== undefined &&
+      localStorage.getItem("userType") === "seller"
+    ) {
+      window.location.href = "/seller-home";
+    } else if (
+      localStorage.getItem("userType") === null ||
+      localStorage.getItem("userType") === undefined
+    ) {
+      window.location.href = "/";
+    }
+  }, []);
+
+  useEffect(() => {
     async function fetchDetails() {
       toast.info("Getting your account details...", {
         position: toast.POSITION.TOP_RIGHT,

@@ -22,11 +22,12 @@ class App extends Component {
       <Router>
         <Switch>
           {/* <Route exact path="/" component={OtpPayment} /> */}
-          {/* <Route exact path="/" component={BuyerHomePage} /> */}
           <Route exact path="/item" component={ItemPage} />
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/auth/:id" component={AuthenticationPage} />
           <Route exact path="/buyer-home" component={BuyerHomePage} />
+          <Route exact path="/payment-page" component={PaymentPage} />
+          <Route exact path="/otp-payment/:id" component={OtpPayment} />
           <Route exact path="/buyer-signup" component={BuyerSignupPage} />
           <Route exact path="/seller-signup" component={SellerSignupPage} />
           <Route exact path="/seller-home" component={SellerHomePage} />

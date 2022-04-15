@@ -124,6 +124,21 @@ function BuyerHomePage() {
     fetchDetails();
   }, []);
 
+  useEffect(() => {
+    if (
+      localStorage.getItem("userType") !== null &&
+      localStorage.getItem("userType") !== undefined &&
+      localStorage.getItem("userType") === "seller"
+    ) {
+      window.location.href = "/seller-home";
+    } else if (
+      localStorage.getItem("userType") === null ||
+      localStorage.getItem("userType") === undefined
+    ) {
+      window.location.href = "/";
+    }
+  }, []);
+
   function onChangeCategory(categories) {
     console.log(categories);
   }

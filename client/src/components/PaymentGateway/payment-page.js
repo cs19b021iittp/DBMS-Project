@@ -5,13 +5,90 @@ import "./payment-page.css";
 import { Radio } from "antd";
 import { Input } from "antd";
 import { useLocation } from "react-router-dom";
+import { queryExchange } from "../../functionality/utils";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+var aesjs = require("aes-js");
 
 const PaymentPage = () => {
-  const [address, setAddress] = useState("address1");
+  const location = useLocation();
+  const [address, setAddress] = useState(0);
   const [cvv, setCvv] = useState("");
+  const [inputCvv, setInputCvv] = useState("");
+  const [nameOnCard, setNameOnCard] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [balance, setBalance] = useState("");
+  const [addresses, setAddresses] = useState([]);
+  const [arrival, setArrival] = useState("");
+
+  const addDays = (date, days) => {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  };
+
+  var key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+
+  useEffect(() => {
+    async function getDetails() {
+      toast.info("Getting your details...", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      var query = `SELECT wallet_balance FROM "buyers" WHERE "id" = ${location.state.buyer_id}`;
+      var tempBalance = await queryExchange(query);
+      setBalance(tempBalance.rows[0].wallet_balance);
+
+      query = `SELECT * FROM "payment_cards" WHERE "user_id" = ${location.state.buyer_id}`;
+      var result = await queryExchange(query);
+      setNameOnCard(result.rows[0].name_on_card);
+      setCvv(result.rows[0].cvv);
+      setCardNumber(result.rows[0].card_number.slice(12, 17));
+
+      query = `SELECT * FROM "addresses" WHERE "user_id" = ${location.state.buyer_id}`;
+      result = await queryExchange(query);
+      setAddresses(result.rows);
+    }
+    setArrival(addDays(new Date(), 4).toDateString());
+    getDetails();
+  }, []);
 
   const changeAddress = (e) => {
     setAddress(e.target.value);
+  };
+
+  const tsunamiDealAccountPay = async () => {
+    if (location.state.total > balance) {
+      toast.error("Insufficient balance", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    var sendItems = [];
+    location.state.items.map((item) => {
+      sendItems.push(item.id);
+    });
+    var items = JSON.stringify(sendItems);
+    window.location.href = "/otp-payment/" + items;
+  };
+
+  const cardPay = () => {
+    var text = inputCvv;
+    var textBytes = aesjs.utils.utf8.toBytes(text);
+    var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+    var encryptedBytes = aesCtr.encrypt(textBytes);
+    var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+    if (encryptedHex !== cvv) {
+      toast.error("Incorrect CVV", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    var sendItems = [];
+    location.state.items.map((item) => {
+      sendItems.push(item.id);
+    });
+    var items = JSON.stringify(sendItems);
+    window.location.href = "/otp-payment/" + items;
   };
 
   return (
@@ -23,14 +100,15 @@ const PaymentPage = () => {
           </div>
           <div style={{ height: "50px" }}></div>
           <Radio.Group onChange={changeAddress} value={address}>
-            <Radio value={"address1"}>
-              Billing Address 1 First Name Last Name Address Line 1 Address Line
-              2 City Pincode Country Phone Number
-            </Radio>
-            <Radio value={"address2"}>
-              Billing Address 2 First Name Last Name Address Line 1 Address Line
-              2 City Pincode Country Phone Number
-            </Radio>
+            {addresses.map((address) => (
+              <Radio value={addresses.indexOf(address)}>
+                <div>{address.address_line1}</div>
+                <div>{address.address_line2}</div>
+                <div>{address.city}</div>
+                <div>{address.pincode}</div>
+                <div>{address.country}</div>
+              </Radio>
+            ))}
           </Radio.Group>
         </div>
         <div className="mid-panel-payment">
@@ -41,51 +119,50 @@ const PaymentPage = () => {
           <br></br>
           <div className="table-cart">
             <table>
-              <th>Item Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <tr>
-                <td>Sofa</td>
-                <td>1</td>
-                <td>1000</td>
-              </tr>
-              <tr>
-                <td>Sofa</td>
-                <td>1</td>
-                <td>1000</td>
-              </tr>
-              <tr>
-                <td>Sofa</td>
-                <td>1</td>
-                <td>1000</td>
-              </tr>
-              <tr>
-                <td>Sofa</td>
-                <td>1</td>
-                <td>1000</td>
-              </tr>
+              <th style={{ paddingRight: "150px" }}>Item Name</th>
+              <th style={{ paddingRight: "20px" }}>Quantity</th>
+              <th style={{ paddingRight: "10px" }}>Price</th>
+              {location.state.items.map((item) => {
+                return (
+                  <tr>
+                    <td>{item.name}</td>
+                    <td>{item.quantity}</td>
+                    <td>{item.price}</td>
+                  </tr>
+                );
+              })}
             </table>
           </div>
           <br></br>
           <br></br>
           <div className="billing-details">
-            <div style={{ fontSize: "1.2em" }}>Total Amount: </div>
-            <div style={{ fontSize: "1.2em" }}>Expected Delivery: </div>
+            <div style={{ fontSize: "1.2em" }}>
+              Total Amount: {location.state.total}
+            </div>
+            <div style={{ fontSize: "1.2em" }}>
+              Expected Delivery: {arrival}
+            </div>
           </div>
         </div>
         <div className="right-panel-payment">
           <div style={{ fontSize: "2em", fontWeight: "bold" }}>
             Choose a Payment Method
           </div>
-          <div style={{ fontSize: "1.5em" }}>Rs. 7600</div>
+          <div style={{ fontSize: "1.5em" }}>
+            Pay Rs. {location.state.total}
+          </div>
           <br></br>
           <br></br>
           <div className="td-account">
             <div style={{ fontSize: "1.4em", fontWeight: "bold" }}>
               TsunamiDeal Account
             </div>
-            <div style={{ fontSize: "1.2em" }}>Your wallet balance: </div>
-            <button className="btn-account">Pay</button>
+            <div style={{ fontSize: "1.2em" }}>
+              Your wallet balance: {balance}
+            </div>
+            <button className="btn-account" onClick={tsunamiDealAccountPay}>
+              Pay
+            </button>
           </div>
           <br></br>
           <br></br>
@@ -93,17 +170,21 @@ const PaymentPage = () => {
             <div style={{ fontSize: "1.4em", fontWeight: "bold" }}>
               Credit/Debit Card
             </div>
-            <div style={{ fontSize: "1.2em" }}>Name on Card: </div>
-            <div style={{ fontSize: "1.2em" }}>Card Number Ending In: </div>
+            <div style={{ fontSize: "1.2em" }}>Name on Card: {nameOnCard}</div>
+            <div style={{ fontSize: "1.2em" }}>
+              Card Number Ending In: {cardNumber}
+            </div>
             <div style={{ fontSize: "1.2em" }}>
               Enter CVV{" "}
               <Input
-                onChange={(e) => setCvv(e.target.value)}
+                onChange={(e) => setInputCvv(e.target.value)}
                 style={{ width: "150px", borderRadius: "4px" }}
               ></Input>
             </div>
+            <ToastContainer autoClose={5000} />
             <button
               className="btn-account"
+              onClick={cardPay}
               style={{ backgroundColor: "#edafb8" }}
             >
               Pay

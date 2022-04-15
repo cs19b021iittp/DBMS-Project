@@ -5,8 +5,11 @@ import "./otp-payment.css";
 import firebase from "../../firebase";
 import logo from "../../assets/logo.svg";
 import auth_flower from "../../assets/auth_flower.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Input, Space } from "antd";
 import "antd/dist/antd.css";
+import { queryExchange } from "../../functionality/utils";
 
 function OtpPayment({ match }) {
   const [curuser, setCuruser] = useState("No user is logged in");
@@ -20,13 +23,12 @@ function OtpPayment({ match }) {
       localStorage.getItem("userType") !== undefined &&
       localStorage.getItem("userType") === "seller"
     ) {
-      window.location = "/seller-dashboard";
+      window.location = "/seller-home";
     } else if (
-      localStorage.getItem("userType") !== null &&
-      localStorage.getItem("userType") !== undefined &&
-      localStorage.getItem("userType") === "buyer"
+      localStorage.getItem("userType") === null ||
+      localStorage.getItem("userType") === undefined
     ) {
-      window.location = "/buyer-dashboard";
+      window.location = "/";
     }
   }, []);
 
@@ -66,8 +68,7 @@ function OtpPayment({ match }) {
   // function that sends otp
   const verifyPhone = async (e) => {
     setupCaptcha();
-    // let phoneNumber = phone;
-    let phoneNumber = "9876543210";
+    let phoneNumber = localStorage.getItem("phone");
     if (phoneNumber[0] != "+") phoneNumber = "+91" + phoneNumber;
     const appVerifier = window.recaptchaVerifier;
 
@@ -75,12 +76,12 @@ function OtpPayment({ match }) {
     firebase
       .auth()
       .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then(function (confirmationResult) {
+      .then(function(confirmationResult) {
         // SMS sent
         window.confirmationResult = confirmationResult;
-        console.log("OTP is sent");
+        console.log("OTP is sent to " + phoneNumber);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
@@ -93,13 +94,40 @@ function OtpPayment({ match }) {
     let otpConfirm = window.confirmationResult;
     otpConfirm
       .confirm(otpInput)
-      .then(async function (result) {
+      .then(async function(result) {
         // User signed in successfully.
         console.log("Successful log in");
+        var items = JSON.parse(match.params.id);
+        toast.info("Checking availability of your items...", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        var query = `SELECT id FROM "buyers" WHERE phone_number = '${localStorage.getItem(
+          "phone"
+        )}'`;
+        var response = await queryExchange(query);
+        const buyerId = response.rows[0].id;
+
+        var inItems = "";
+        for (var i = 0; i < items.length; i++) {
+          inItems += items[i] + ",";
+        }
+        inItems = inItems.slice(0, -1);
+        inItems = "(" + inItems + ")";
+        var query = `SELECT * FROM "products" WHERE id IN ${inItems}`;
+        response = await queryExchange(query);
+        var quantities = response.rows;
+        for (var i = 0; i < quantities.length; i++) {
+          if (quantities[i].left_in_stock < items[i].quantity) {
+            alert("Not enough stock for product " + quantities[i].name);
+            window.location.href = "/buyer-cart";
+          }
+        }
+        // start transaction
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
-        alert("Incorrect OTP");
+        alert("An error occurred");
+        window.location.href = "/buyer-cart";
       });
     verify();
   };
@@ -134,6 +162,7 @@ function OtpPayment({ match }) {
             </Space>
             <br></br>
             <br></br>
+            <ToastContainer autoClose={5000} />
             <button
               className="auth-page-button"
               id="auth-signin-button"
