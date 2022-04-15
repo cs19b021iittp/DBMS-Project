@@ -5,7 +5,7 @@ import "./cart-page.css";
 import Navbar from "../Navbar/buyer-navbar";
 import flower from "../../assets/dashboard_flower.svg";
 import sofa from "../../assets/sofa.svg";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { queryExchange } from "../../functionality/utils";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -55,6 +55,21 @@ const CartPage = () => {
     result.setDate(result.getDate() + days);
     return result;
   };
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("userType") !== null &&
+      localStorage.getItem("userType") !== undefined &&
+      localStorage.getItem("userType") === "seller"
+    ) {
+      window.location.href = "/seller-home";
+    } else if (
+      localStorage.getItem("userType") === null ||
+      localStorage.getItem("userType") === undefined
+    ) {
+      window.location.href = "/";
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchDetails() {
@@ -174,7 +189,25 @@ const CartPage = () => {
         </div>
         <div className="right-panel">
           <div className="proceed-button">
-            <button className="proceed-button-act">Proceed to Pay</button>
+            {items.length > 0 ? (
+              <Link
+                style={{
+                  textDecoration: "none",
+                  border: "none",
+                  color: "black",
+                }}
+                to={{
+                  pathname: "/payment-page",
+                  state: {
+                    items: items,
+                    total: total,
+                    buyer_id: buyerId,
+                  },
+                }}
+              >
+                <button className="proceed-button-act">Proceed to Pay</button>
+              </Link>
+            ) : null}
           </div>
           <img src={flower} style={{ width: "100%" }}></img>
         </div>
