@@ -27,13 +27,18 @@ class App extends Component {
           <Route exact path="/auth/:id" component={AuthenticationPage} />
           <Route exact path="/buyer-home" component={BuyerHomePage} />
           <Route exact path="/payment-page" component={PaymentPage} />
-          <Route exact path="/otp-payment/:id" component={OtpPayment} />
+          <Route
+            exact
+            path="/otp-payment/:id/:address_id"
+            component={OtpPayment}
+          />
           <Route exact path="/buyer-signup" component={BuyerSignupPage} />
           <Route exact path="/seller-signup" component={SellerSignupPage} />
           <Route exact path="/seller-home" component={SellerHomePage} />
           <Route exact path="/seller-update" component={SellerUpdatePage} />
           <Route exact path="/buyer-cart" component={CartPage} />
           <Route exact path="/buyer-account" component={BuyerAccountPage} />
+          <Route exact path="/buyer-orders" component={BuyerOrdersPage} />
         </Switch>
       </Router>
     );

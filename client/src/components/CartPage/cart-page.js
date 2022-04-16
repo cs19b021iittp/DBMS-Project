@@ -122,6 +122,7 @@ const CartPage = () => {
           image: products[i].image,
           price: products[i].price - discountsMap.get(products[i].discount_id),
           quantity: cartItems[i].quantity,
+          seller_id: products[i].seller_id,
         });
         price += products[i].price - discountsMap.get(products[i].discount_id);
       }

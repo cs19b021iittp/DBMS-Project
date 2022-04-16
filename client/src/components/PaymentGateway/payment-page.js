@@ -20,6 +20,7 @@ const PaymentPage = () => {
   const [balance, setBalance] = useState("");
   const [addresses, setAddresses] = useState([]);
   const [arrival, setArrival] = useState("");
+  const [addressId, setAddressId] = useState(0);
 
   const addDays = (date, days) => {
     var result = new Date(date);
@@ -47,6 +48,7 @@ const PaymentPage = () => {
       query = `SELECT * FROM "addresses" WHERE "user_id" = ${location.state.buyer_id}`;
       result = await queryExchange(query);
       setAddresses(result.rows);
+      setAddressId(result.rows[0].id);
     }
     setArrival(addDays(new Date(), 4).toDateString());
     getDetails();
@@ -54,9 +56,11 @@ const PaymentPage = () => {
 
   const changeAddress = (e) => {
     setAddress(e.target.value);
+    setAddressId(addresses.get(e.target.value).id);
+    console.log(addresses.get(e.target.value).id);
   };
 
-  const tsunamiDealAccountPay = async () => {
+  const tsunamiDealAccountPay = () => {
     if (location.state.total > balance) {
       toast.error("Insufficient balance", {
         position: toast.POSITION.TOP_RIGHT,
@@ -64,11 +68,12 @@ const PaymentPage = () => {
       return;
     }
     var sendItems = [];
-    location.state.items.map((item) => {
-      sendItems.push(item.id);
-    });
-    var items = JSON.stringify(sendItems);
-    window.location.href = "/otp-payment/" + items;
+    // location.state.items.map((item) => {
+    //   sendItems.push(item.id);
+    // });
+    var items = JSON.stringify(location.state.items);
+    localStorage.setItem("items", items);
+    window.location.href = "/otp-payment/1/" + addressId;
   };
 
   const cardPay = () => {
@@ -84,11 +89,12 @@ const PaymentPage = () => {
       return;
     }
     var sendItems = [];
-    location.state.items.map((item) => {
-      sendItems.push(item.id);
-    });
-    var items = JSON.stringify(sendItems);
-    window.location.href = "/otp-payment/" + items;
+    // location.state.items.map((item) => {
+    //   sendItems.push(item);
+    // });
+    var items = JSON.stringify(location.state.items);
+    localStorage.setItem("items", items);
+    window.location.href = "/otp-payment/0/" + addressId;
   };
 
   return (

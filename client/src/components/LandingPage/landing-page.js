@@ -7,7 +7,7 @@ import auth_flower from "../../assets/auth_flower.svg";
 import welcome_text from "../../assets/welcome_text.svg";
 
 export const LandingPage = () => {
-  localStorage.clear();
+  // localStorage.clear();
 
   useEffect(() => {
     if (
@@ -15,13 +15,13 @@ export const LandingPage = () => {
       localStorage.getItem("userType") !== undefined &&
       localStorage.getItem("userType") === "seller"
     ) {
-      window.location = "/seller-dashboard";
+      window.location = "/seller-home";
     } else if (
       localStorage.getItem("userType") !== null &&
       localStorage.getItem("userType") !== undefined &&
       localStorage.getItem("userType") === "buyer"
     ) {
-      window.location = "/buyer-dashboard";
+      window.location = "/buyer-home";
     }
   }, []);
 

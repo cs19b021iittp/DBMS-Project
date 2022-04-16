@@ -3,17 +3,15 @@
 const fs = require("fs");
 const pool = require("./db");
 
-var query1 =
-  'CREATE TABLE "test" (\n"id" SERIAL PRIMARY KEY,\n"user_id" int\n)';
+var query28 =
+  'CREATE TABLE "test" ("id" SERIAL PRIMARY KEY, "timestamp" timestamp)';
+
+var timestamp = new Date().toDateString();
+var query29 = `INSERT INTO "test" ("timestamp") VALUES ('${timestamp}')`;
 
 var query2 = 'INSERT INTO "test"("user_id")\nVALUES (2)';
 
-var query3 = `SELECT * FROM "cart_items"`;
-var query5 = `ALTER TABLE "payment_cards" ALTER COLUMN "cvv" TYPE VARCHAR`;
-var query4 = `DELETE from "products" WHERE name = '{prodName}'`;
-var query6 = `SELECT seller_name FROM "sellers" WHERE id = 5`;
-var query7 = `INSERT INTO "products" ("name", "image", "description", "category", "brand", "seller_id", "price", "left_in_stock", "discount_id") VALUES('{prodName}', '{image}', '{description}', ('furniture'), ('home_centre'), 2, 4, 4, 4);`;
-var query8 = `INSERT INTO "discounts"("name", "percent") VALUES ('None', 0)`;
+var query3 = `SELECT * FROM "test"`;
 var query9 = `DROP TABLE IF EXISTS "discounts" CASCADE;`;
 var query10 = `CREATE TABLE "discounts" (
   "id" SERIAL PRIMARY KEY,
@@ -52,6 +50,17 @@ VALUES ('UPTO30', 30);`;
 var query21 = `INSERT INTO "discounts"("name", "percent")
 VALUES ('EXTRA20OFF', 20);`;
 
+var query22 = `SHOW TRANSACTION ISOLATION LEVEL;`;
+var query23 = `SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;`;
+
+var query24 = `BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+UPDATE "buyers" SET first_name='test3' WHERE first_name LIKE 'test1';
+UPDATE "products" SET left_in_stock = left_in_stock - 1 WHERE name LIKE 'test';
+UPDATE "buyers" SET first_name='test2' WHERE first_name LIKE 'test1';
+COMMIT;`;
+
+var query25 = `UPDATE "buyers" SET first_name = 'test1' WHERE first_name LIKE 'test';`;
+
 // var initQueries = [
 //   query11,
 //   query12,
@@ -66,7 +75,7 @@ VALUES ('EXTRA20OFF', 20);`;
 //   query21,
 // ];
 
-var initQueries = [query3];
+var initQueries = [query29, query3];
 
 (async () => {
   // fs.readFileSync("./database_schemas/load_data.sql")
