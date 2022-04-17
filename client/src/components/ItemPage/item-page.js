@@ -64,7 +64,7 @@ const ItemPage = () => {
         window.location.href = "/buyer-home";
       }
     } else {
-      toast.error(`There are only ${left_in_stock} left in stock`, {
+      toast.error(`There is/are only ${left_in_stock} left in stock`, {
         position: toast.POSITION.TOP_RIGHT,
       });
     }

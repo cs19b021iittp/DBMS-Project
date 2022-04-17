@@ -5,6 +5,7 @@ import logo from "../../assets/logo.svg";
 import user from "../../assets/user.svg";
 import cart from "../../assets/cart.svg";
 import search from "../../assets/search.svg";
+import orders from "../../assets/orders.svg";
 import "./navbar.css";
 import { Input, Space } from "antd";
 import { searchFunction } from "../../functionality/search.js";
@@ -35,42 +36,19 @@ const BuyerNavbar = () => {
           onClick={(e) => {
             searchFunction(searchValue);
           }}
-          /* onClick={(e) => {
-            fetch("/api/query", {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                query: 'select * from "buyers"',
-              }),
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                // for select, data.fields gives the column details,
-                // data.rows gives the list of rows, each list item
-                // is an object that contains column name as the key and
-                // cell value as the value
-                console.log(data);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          }} */
           src={search}
           style={{ height: "30px", marginLeft: "10px", cursor: "pointer" }}
         />
       </span>
       <span className="buyer-navbar-icons">
-        <div>
+        <span>
           <img
             onClick={() => {
               window.location.href = "/buyer-account";
             }}
             src={user}
             alt="logo"
-            style={{ width: "15%", marginLeft: "20%", cursor: "pointer" }}
+            style={{ width: "10%", marginLeft: "15%", cursor: "pointer" }}
           />
           <img
             onClick={() => {
@@ -78,9 +56,17 @@ const BuyerNavbar = () => {
             }}
             src={cart}
             alt="logo"
-            style={{ width: "15%", marginLeft: "15%", cursor: "pointer" }}
+            style={{ width: "10%", marginLeft: "15%", cursor: "pointer" }}
           />
-        </div>
+          <img
+            onClick={() => {
+              window.location.href = "/buyer-orders";
+            }}
+            src={orders}
+            alt="logo"
+            style={{ width: "10%", marginLeft: "15%", cursor: "pointer" }}
+          />
+        </span>
       </span>
     </div>
   );

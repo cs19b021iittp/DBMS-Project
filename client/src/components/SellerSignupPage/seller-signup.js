@@ -19,40 +19,6 @@ function AuthenticationPage({ match }) {
     setPhone(localStorage.getItem("phone"));
   });
 
-  /*useEffect(() => {
-    if (
-      localStorage.getItem("userType") !== null &&
-      localStorage.getItem("userType") !== undefined &&
-      localStorage.getItem("userType") === "seller"
-    ) {
-      window.location = "/seller-dashboard";
-    } else if (
-      localStorage.getItem("userType") !== null &&
-      localStorage.getItem("userType") !== undefined &&
-      localStorage.getItem("userType") === "buyer"
-    ) {
-      window.location = "/buyer-dashboard";
-    }
-  }, []);
-
-  // verify if a user is already logged in
-  useEffect(() => {
-    verify();
-  }, []);
-
-  // function to verify the user session
-  const verify = async () => {
-    firebase.auth().onAuthStateChanged(async (user) => {
-      if (user) {
-        setCuruser(user.uid);
-        setPhone(user.phoneNumber);
-        // TODO: check if the logged in user is a seller or buyer and route accordingly
-      } else {
-        setCuruser("No user found");
-      }
-    });
-  };*/
-
   return (
     <div className="seller-page" style={{ overflow: "hidden" }}>
       <div className="seller-page-strip"></div>

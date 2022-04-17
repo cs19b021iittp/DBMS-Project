@@ -19,7 +19,6 @@ function OtpPayment({ match }) {
 
   useEffect(() => {
     console.log(match.params.id);
-    console.log(match.params.num);
     if (
       localStorage.getItem("userType") !== null &&
       localStorage.getItem("userType") !== undefined &&
@@ -105,6 +104,16 @@ function OtpPayment({ match }) {
       .then(async function(result) {
         // User signed in successfully.
         console.log("Successful log in");
+        if (
+          localStorage.getItem("items") === "empty" ||
+          localStorage.getItem("items") === null ||
+          localStorage.getItem("items") === undefined
+        ) {
+          toast.error("Please add items to cart before proceeding to payment", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          window.location.href = "/buyer-home";
+        }
         var items = JSON.parse(localStorage.getItem("items"));
         console.log(items);
         toast.info("Checking availability of your items...", {
@@ -122,10 +131,10 @@ function OtpPayment({ match }) {
         var inItems = "";
         for (var i = 0; i < items.length; i++) {
           inItems += items[i].id + ",";
-          total += parseInt(items[i].price);
+          total += parseFloat(items[i].price);
           sellers.push({
             id: items[i].seller_id,
-            price: parseInt(items[i].price),
+            price: parseFloat(items[i].price),
           });
         }
         inItems = inItems.slice(0, -1);
@@ -135,6 +144,7 @@ function OtpPayment({ match }) {
         var products = response.rows;
         for (var i = 0; i < products.length; i++) {
           if (products[i].left_in_stock < items[i].quantity) {
+            localStorage.setItem("items", "empty");
             alert("Not enough stock for product " + products[i].name);
             window.location.href = "/buyer-cart";
           }
@@ -142,109 +152,62 @@ function OtpPayment({ match }) {
         toast.info("Running the transaction...", {
           position: toast.POSITION.TOP_RIGHT,
         });
+
         // start transaction
-        query = `BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;`;
-        await queryExchange(query);
-        if (match.params.id === "1") {
-          // deduct amount from buyer
-          query = `UPDATE "buyers" SET wallet_balance = wallet_balance - ${total} WHERE id = ${buyerId};`;
-          response = await queryExchange(query);
-          if (response.name && response.name === "error") {
-            console.log(response);
-            toast.error("An error occured. Rolling back...", {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-            setTimeout(() => {
-              window.location.href = "/buyer-cart";
-            }, 2000);
-          }
-        }
-        // add amount to the respective sellers
-        sellers.forEach(async function(element, index) {
-          query = `UPDATE "sellers" SET account_balance = account_balance + ${element.price} WHERE id = ${element.id};`;
-          response = await queryExchange(query);
-          if (response.name && response.name === "error") {
-            console.log(response);
-            toast.error("An error occured. Rolling back...", {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-            setTimeout(() => {
-              window.location.href = "/buyer-cart";
-            }, 2000);
-          }
-        });
-        // reduce quantities of items
-        items.forEach(async function(element, index) {
-          query = `UPDATE "products" SET left_in_stock = left_in_stock - ${element.quantity} WHERE id = ${element.id};`;
-          response = await queryExchange(query);
-          if (response.name && response.name === "error") {
-            console.log(response);
-            toast.error("An error occured. Rolling back...", {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-            setTimeout(() => {
-              window.location.href = "/buyer-cart";
-            }, 2000);
-          }
-        });
-        // remove items from cart
-        query = `DELETE FROM "cart_items" WHERE user_id = ${buyerId};`;
+        query = `BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;\nSAVEPOINT begin_save_point;\n`;
         response = await queryExchange(query);
-        if (response.name && response.name === "error") {
-          console.log(response);
-          toast.error("An error occured. Rolling back...", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-          setTimeout(() => {
-            window.location.href = "/buyer-cart";
-          }, 2000);
-        }
-        // add items to orders
-        var timestamp = new Date().toDateString();
-        var arrivalTime = addDays(timestamp, 4).toDateString();
+
+        var timestamp = new Date().toISOString();
+        var arrivalTime = addDays(timestamp, 4).toISOString();
         var paymentMethod = match.params.id === "0" ? "card" : "wallet";
-        query = `INSERT INTO "orders"("user_id", "status", "created_at", "arriving_on", "order_total", "billing_address", "payment_method") VALUES (${buyerId}, ('on_the_way'), '${timestamp}', '${arrivalTime}', ${total}, ${addressId}, ('${paymentMethod}'));`;
+        var orderId;
+        await queryExchange(
+          `INSERT INTO "orders"("user_id", "status", "created_at", "arriving_on", "order_total", "billing_address", "payment_method") VALUES (${buyerId}, ('on_the_way'), '${timestamp}', '${arrivalTime}', ${total}, ${addressId}, ('${paymentMethod}'));\n`
+        );
+        response = await queryExchange(
+          `SELECT id FROM "orders" WHERE user_id = ${buyerId} AND created_at = '${timestamp}'`
+        );
+        orderId = response.rows[0].id;
+        items.forEach((element, index) => {
+          query += `INSERT INTO "order_items"("order_id", "product_id", "quantity") VALUES (${orderId}, ${element.id}, ${element.quantity});\n`;
+        });
+        if (match.params.id === "1") {
+          query += `UPDATE "buyers" SET wallet_balance = wallet_balance - ${total} WHERE id = ${buyerId};\n`;
+        }
+        sellers.forEach((element, index) => {
+          query += `UPDATE "sellers" SET account_balance = account_balance + ${element.price} WHERE id = ${element.id};\n`;
+        });
+        items.forEach((element, index) => {
+          query += `UPDATE "products" SET left_in_stock = left_in_stock - ${element.quantity} WHERE id = ${element.id};\n`;
+        });
+        query += `DELETE FROM "cart_items" WHERE user_id = ${buyerId};\n`;
+        query += `COMMIT;`;
         response = await queryExchange(query);
+        console.log(query);
         if (response.name && response.name === "error") {
-          console.log(response);
-          toast.error("An error occured. Rolling back...", {
+          toast.error("Transaction failed. Rolling back...", {
             position: toast.POSITION.TOP_RIGHT,
           });
+          await queryExchange(`ROLLBACK TO begin_save_point;`);
+          window.location.href = "/buyer-home";
+        } else {
+          toast.success("Transaction successful.", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          localStorage.setItem("items", "empty");
           setTimeout(() => {
-            window.location.href = "/buyer-cart";
-          }, 2000);
+            window.location.href = "/buyer-orders";
+          }, 1000);
         }
-        var orderId = 0;
-        query = `SELECT id FROM "orders" WHERE user_id = ${buyerId} AND created_at = '${timestamp}'`;
-        response = await queryExchange(query);
-        orderId = response.rows[0].id;
-        items.forEach(async function(element, index) {
-          query = `INSERT INTO "order_items"("order_id", "product_id", "quantity") VALUES (${orderId}, ${element.id}, ${element.quantity});`;
-          response = await queryExchange(query);
-          if (response.name && response.name === "error") {
-            console.log(response);
-            toast.error("An error occured. Rolling back...", {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-            setTimeout(() => {
-              window.location.href = "/buyer-cart";
-            }, 2000);
-          }
-        });
-        // end transaction
-        query = `COMMIT;`;
-        await queryExchange(query);
-        toast.success("Transaction successful", {
+      })
+      .catch(async function(error) {
+        console.log(error);
+        toast.error("Transaction failed. Rolling back...", {
           position: toast.POSITION.TOP_RIGHT,
         });
-        setTimeout(() => {
-          window.location.href = "/buyer-orders";
-        }, 1000);
-      })
-      .catch(function(error) {
-        console.log(error);
-        alert("An error occurred");
-        window.location.href = "/buyer-cart";
+        localStorage.setItem("items", "empty");
+        await queryExchange(`ROLLBACK TO begin_save_point;`);
+        window.location.href = "/buyer-home";
       });
     verify();
   };

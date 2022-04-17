@@ -4,7 +4,7 @@ CREATE TABLE "buyers" (
   "phone_number" char(10),
   "first_name" varchar,
   "last_name" varchar,
-  "wallet_balance" decimal CHECK("wallet_balance" > 0.0)
+  "wallet_balance" decimal CHECK("wallet_balance" >= 0.0)
 );
 
 DROP TABLE IF EXISTS "addresses" CASCADE;
@@ -38,7 +38,7 @@ CREATE TABLE "order_items" (
 DROP TABLE IF EXISTS "orders" CASCADE;
 CREATE TABLE "orders" (
   "id" SERIAL PRIMARY KEY,
-  "user_id" int UNIQUE NOT NULL,
+  "user_id" int NOT NULL,
   "status" order_status,
   "created_at" timestamp,
   "arriving_on" timestamp,
@@ -57,7 +57,7 @@ CREATE TABLE "products" (
   "brand" brands,
   "seller_id" int NOT NULL,
   "price" decimal CHECK("price" > 0.0),
-  "left_in_stock" int CHECK("left_in_stock" > 0),
+  "left_in_stock" int CHECK("left_in_stock" >= 0),
   "discount_id" int
 );
 

@@ -10,7 +10,6 @@ export async function queryExchange(queryPassed) {
     }),
   }).catch((error) => {
     console.log(error);
-    alert("ERROR: Could not complete query");
   });
   const json = await response.json();
   //console.log(json);
