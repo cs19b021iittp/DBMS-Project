@@ -12,7 +12,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Card = (props) => {
   const removeItem = async () => {
-    var query = `DELETE FROM "cart_items" WHERE "id" = ${props.id}`;
+    // console.log(props.cartId);
+    var query = `DELETE FROM "cart_items" WHERE id = ${props.cartId}`;
+    // console.log(query);
     const response = await queryExchange(query);
     if (response.name && response.name === "error") {
       console.log(response);
@@ -82,7 +84,7 @@ const CartPage = () => {
       var id = await queryExchange(query);
       id = id.rows[0].id;
       setBuyerId(id);
-      var query = `SELECT * FROM "cart_items" WHERE "user_id" = ${id}`;
+      var query = `SELECT * FROM "cart_items" WHERE user_id = ${id}`;
       var cartItems = await queryExchange(query);
       cartItems = cartItems.rows;
       if (cartItems.length === 0) {
@@ -99,7 +101,9 @@ const CartPage = () => {
       inItems = inItems.slice(0, -1);
       inItems = "(" + inItems + ")";
       var query = `SELECT * FROM "products" WHERE id IN ${inItems}`;
+      console.log(query);
       var products = await queryExchange(query);
+      console.log(products.rows);
       products = products.rows;
       for (var i = 0; i < products.length; i++) {
         inDiscounts += products[i].discount_id + ",";
@@ -107,24 +111,42 @@ const CartPage = () => {
       inDiscounts = inDiscounts.slice(0, -1);
       inDiscounts = "(" + inDiscounts + ")";
       var query = `SELECT * FROM "discounts" WHERE id IN ${inDiscounts}`;
+      console.log(query);
+
       var discounts = await queryExchange(query);
       discounts = discounts.rows;
       var discountsMap = new Map();
       for (var i = 0; i < discounts.length; i++) {
-        discountsMap.set(discounts[i].id, discounts[i].percent);
+        discountsMap.set(discounts[i].id, parseInt(discounts[i].percent));
       }
       var tempItems = [];
       var price = 0;
-      for (var i = 0; i < products.length; i++) {
-        tempItems.push({
-          id: cartItems[i].id,
-          name: products[i].name,
-          image: products[i].image,
-          price: products[i].price - discountsMap.get(products[i].discount_id),
-          quantity: cartItems[i].quantity,
-          seller_id: products[i].seller_id,
-        });
-        price += products[i].price - discountsMap.get(products[i].discount_id);
+      for (var i = 0; i < cartItems.length; i++) {
+        for (var j = 0; j < products.length; j++) {
+          if (cartItems[i].product_id === products[j].id) {
+            tempItems.push({
+              cartId: cartItems[i].id,
+              id: cartItems[i].product_id,
+              name: products[j].name,
+              image: products[j].image,
+              price:
+                cartItems[i].quantity *
+                (products[j].price -
+                  (products[j].price *
+                    discountsMap.get(products[j].discount_id)) /
+                    100),
+              quantity: cartItems[i].quantity,
+              seller_id: products[j].seller_id,
+            });
+            price +=
+              cartItems[i].quantity *
+              (products[j].price -
+                (products[j].price *
+                  discountsMap.get(products[j].discount_id)) /
+                  100);
+            break;
+          }
+        }
       }
       setTotal(price);
       setItems(tempItems);
@@ -184,6 +206,7 @@ const CartPage = () => {
                 image={item.image}
                 price={item.price}
                 id={item.id}
+                cartId={item.cartId}
               />
             </div>
           ))}

@@ -113,7 +113,15 @@ const BuyerAccountPage = () => {
               </div>
             ))}
           </div>
-          <button className="button-account">Logout</button>
+          <button
+            className="button-account"
+            onClick={() => {
+              localStorage.clear();
+              window.location.href = "/";
+            }}
+          >
+            Logout
+          </button>
         </div>
         <div className="mid-panel" style={{ padding: "40px" }}>
           <div style={{ fontWeight: "bold", fontSize: "2em" }}>
