@@ -9,3 +9,9 @@ $ npm install
 $ npm run client-install
 $ npm run dev
 ```
+
+### Authors
+
+Shreetesh
+Harshitha
+Debeshee
