@@ -35,9 +35,21 @@ const Chatbot = (props) => {
           },
           {
             id: "3",
-            message: "Hi {previousValue}, nice to meet you!",
-            end: true,
+            message: "Hi {previousValue}, nice to meet you! Please enter any search queries you have!",
+            trigger: "4",
           },
+          {
+            id: "4",
+            user: true,
+            trigger: "5",
+          },
+          {
+            id: '5',
+            message: ({ previousValue, steps }) => 'Hello',
+            trigger: ({ value, steps }) => '6',
+            end: true
+          },
+
         ]}
       />
     </ThemeProvider>

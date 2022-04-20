@@ -10,6 +10,7 @@ export const LandingPage = () => {
   // localStorage.clear();
 
   useEffect(() => {
+    sessionStorage.setItem("search_results", '');  
     if (
       localStorage.getItem("userType") !== null &&
       localStorage.getItem("userType") !== undefined &&

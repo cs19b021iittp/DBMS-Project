@@ -3,12 +3,14 @@
   height: 60px !important;
   background-color: #b0c4b1;
   padding: 0;
+  display: flex !important;
+  justify-content: space-between;
 }
 
 .buyer-navbar-logo {
   float: left;
   margin: 10px;
-  width: 20%;
+  /* width: 20%; */
 }
 
 .buyer-navbar-icons {
