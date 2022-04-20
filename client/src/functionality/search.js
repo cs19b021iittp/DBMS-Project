@@ -1,11 +1,61 @@
 import { queryExchange } from "./utils";
 
-export async function searchFunction(searchString) {
+export async function searchFunction(
+  searchString,
+  categories,
+  brands,
+  priceRange,
+  sortPrice
+) {
   console.log("Inside the search function");
   console.log(searchString);
   searchString = searchString.toLowerCase();
 
-  var queryString = 'SELECT * FROM "products"';
+  var queryString = 'SELECT * FROM "products" ';
+
+  if (categories !== null && categories !== []) {
+    var categoryString = "";
+    for (var i = 0; i < categories.length; i++) {
+      categoryString = categoryString + "'" + categories[i] + "',";
+    }
+    categoryString = categoryString.slice(0, -1);
+    if (queryString.includes("WHERE ")) {
+      queryString += " AND ";
+      queryString += " category IN (" + categoryString + ")";
+    } else {
+      queryString += " WHERE category IN (" + categoryString + ")";
+    }
+  }
+  if (brands !== null && brands !== []) {
+    var brandString = "";
+    for (var i = 0; i < categories.length; i++) {
+      brandString = brandString + "'" + categories[i] + "',";
+    }
+    brandString = brandString.slice(0, -1);
+    if (queryString.includes("WHERE ")) {
+      queryString += " AND ";
+      queryString += " brand IN (" + brandString + ")";
+    } else {
+      queryString += " WHERE brand IN (" + brandString + ")";
+    }
+  }
+  if (priceRange !== null && priceRange !== 0) {
+    if (queryString.includes("WHERE ")) {
+      queryString += " AND ";
+    } else {
+      queryString += " WHERE ";
+    }
+    if (priceRange === 1) {
+      queryString += " price < 1000";
+    } else if (priceRange === 2) {
+      queryString += " price >= 1000 AND price < 5000";
+    } else if (priceRange === 3) {
+      queryString += " price >= 5000 AND price < 10000";
+    } else if (priceRange === 4) {
+      queryString += " price > 10000";
+    }
+  }
+
   var productIds = new Set();
   var category = ``;
   var brand = ``;
@@ -33,6 +83,12 @@ export async function searchFunction(searchString) {
   else if (brand != "")
     queryString = queryString + ` WHERE "brand" IN ` + brand;
 
+  if (sortPrice !== null && sortPrice !== "") {
+    sortPrice = sortPrice === "decreasing" ? ` DESC ` : ` ASC `;
+    var sortPriceString = ` ORDER BY ${sortPrice}`;
+    queryString += sortPriceString;
+  }
+
   queryString = queryString + `;`;
   //queryString = queryString + ' WHERE LOWER(product_name) LIKE \'%' + searchString + '%\''
 
@@ -53,16 +109,11 @@ export async function searchFunction(searchString) {
    */
 
   const result = await queryExchange(queryString);
-  console.log('in navbar', result.rows);
+  console.log("in navbar", result.rows);
 
   // Assign value to a key
   sessionStorage.setItem("search_results", JSON.stringify(result.rows));
   // Access value associated with the key
-  
-
-  
-
-
 }
 /* const searchValue = "blue sofa ddecor stylestop";
 const productList = searchFunction(searchValue);

@@ -10,7 +10,18 @@ export const LandingPage = () => {
   // localStorage.clear();
 
   useEffect(() => {
-    sessionStorage.setItem("search_results", '');  
+    localStorage.setItem(
+      "categories",
+      JSON.stringify(["furniture", "lighting", "plants", "show_pieces"])
+    );
+    localStorage.setItem(
+      "brands",
+      JSON.stringify(["home_centre", "ddecor", "stylestop"])
+    );
+    localStorage.setItem("price", "0");
+    localStorage.setItem("sortPrice", "");
+    sessionStorage.setItem("search_results", "");
+    sessionStorage.setItem("search_query", "");
     if (
       localStorage.getItem("userType") !== null &&
       localStorage.getItem("userType") !== undefined &&

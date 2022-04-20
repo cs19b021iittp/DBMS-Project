@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { queryExchange } from "../../functionality/utils";
+import { searchFunction } from "../../functionality/search";
 
 const Card = (props) => {
   return (
@@ -73,10 +74,14 @@ const Card = (props) => {
 };
 
 function BuyerHomePage() {
-  const [category, setCategory] = useState([]);
-  const [brand, setBrand] = useState([]);
-  const [price, setPrice] = useState("");
-  const [sortPrice, setSortPrice] = useState("");
+  const [category, setCategory] = useState(
+    JSON.parse(localStorage.getItem("categories"))
+  );
+  const [brand, setBrand] = useState(
+    JSON.parse(localStorage.getItem("brands"))
+  );
+  const [price, setPrice] = useState(parseInt(localStorage.getItem("price")));
+  const [sortPrice, setSortPrice] = useState(localStorage.getItem("sortPrice"));
   const [items, setItems] = useState([]);
   const [discountMapping, setDiscounts] = useState(null);
 
@@ -92,16 +97,16 @@ function BuyerHomePage() {
   brands.set("stylestop", "StyleStop");
 
   const categoryOptions = [
-    { label: "Furniture", value: "Furniture" },
-    { label: "Lighting", value: "Lighting" },
-    { label: "Indoor Plants", value: "Indoor Plants" },
-    { label: "Show Pieces", value: "Show Pieces" },
+    { label: "Furniture", value: "furniture" },
+    { label: "Lighting", value: "lighting" },
+    { label: "Indoor Plants", value: "plants" },
+    { label: "Show Pieces", value: "show_pieces" },
   ];
 
   const brandOptions = [
-    { label: "Home Centre", value: "Home Centre" },
-    { label: "d-Decor", value: "d-Decor" },
-    { label: "StyleStop", value: "StyleStop" },
+    { label: "Home Centre", value: "home_centre" },
+    { label: "d-Decor", value: "ddecor" },
+    { label: "StyleStop", value: "stylestop" },
   ];
 
   useEffect(() => {
@@ -109,8 +114,7 @@ function BuyerHomePage() {
       toast.info("Fetching items...", {
         position: toast.POSITION.TOP_RIGHT,
       });
-      var results=sessionStorage.getItem("search_results")
-      console.log('outside the catch')
+      var results = sessionStorage.getItem("search_results");
       var query = `SELECT * FROM "discounts"`;
       var discounts = await queryExchange(query);
       var discountsMap = new Map();
@@ -119,45 +123,34 @@ function BuyerHomePage() {
       });
       setDiscounts(discountsMap);
 
-      console.log('inside the catch')
-      
-      if(results==='')
-      {
-        console.log('empty results')
+      if (results === "") {
         var query = `SELECT * FROM "products"`;
-      var list = await queryExchange(query);
-      console.log('list',list)
-      setItems(list.rows);
-    
-        
-      }
-      else {
-        console.log('else ')
-        // results = JSON.parse(results);
-        console.log('results',results)
+        var list = await queryExchange(query);
+        console.log("list", list);
+        setItems(list.rows);
+      } else {
         setItems(JSON.parse(sessionStorage.getItem("search_results")));
       }
-      sessionStorage.setItem("search_results", '');  
-     
+      sessionStorage.setItem("search_results", "");
     }
 
     fetchDetails();
   }, []);
 
-  // useEffect(() => {
-  //   if (
-  //     localStorage.getItem("userType") !== null &&
-  //     localStorage.getItem("userType") !== undefined &&
-  //     localStorage.getItem("userType") === "seller"
-  //   ) {
-  //     window.location.href = "/seller-home";
-  //   } else if (
-  //     localStorage.getItem("userType") === null ||
-  //     localStorage.getItem("userType") === undefined
-  //   ) {
-  //     window.location.href = "/";
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (
+      localStorage.getItem("userType") !== null &&
+      localStorage.getItem("userType") !== undefined &&
+      localStorage.getItem("userType") === "seller"
+    ) {
+      window.location.href = "/seller-home";
+    } else if (
+      localStorage.getItem("userType") === null ||
+      localStorage.getItem("userType") === undefined
+    ) {
+      window.location.href = "/";
+    }
+  }, []);
 
   function onChangeCategory(categories) {
     console.log(categories);
@@ -187,12 +180,7 @@ function BuyerHomePage() {
           <div style={{ width: "50%", fontSize: "1.2em" }}>
             <Checkbox.Group
               options={categoryOptions}
-              defaultValue={[
-                "Furniture",
-                "Lighting",
-                "Indoor Plants",
-                "Show Pieces",
-              ]}
+              defaultValue={category}
               onChange={onChangeCategory}
             />
           </div>
@@ -200,10 +188,10 @@ function BuyerHomePage() {
           <div className="left-panel-header">Filter by price</div>
           <div style={{ width: "55%", fontSize: "1.4em" }}>
             <Radio.Group onChange={changePrice} value={price}>
-              <Radio value={"lt1k"}>{"<"}1000</Radio>
-              <Radio value={"1kto5k"}>1000 - 5000</Radio>
-              <Radio value={"5kto10k"}>5000 - 10000</Radio>
-              <Radio value={"gt10k"}>{">"}10000</Radio>
+              <Radio value={1}>{"<"}1000</Radio>
+              <Radio value={2}>1000 - 5000</Radio>
+              <Radio value={3}>5000 - 10000</Radio>
+              <Radio value={4}>{">"}10000</Radio>
             </Radio.Group>
           </div>
           <br></br>
@@ -219,15 +207,60 @@ function BuyerHomePage() {
           <div style={{ width: "55%", fontSize: "1.4em" }}>
             <Checkbox.Group
               options={brandOptions}
-              defaultValue={["Home Centre", "d-Decor", "StyleStop"]}
+              defaultValue={brand}
               onChange={onChangeBrand}
             />
           </div>
+          <button
+            className="button-apply-filter"
+            onClick={async () => {
+              localStorage.setItem("categories", JSON.stringify(category));
+              localStorage.setItem("brands", JSON.stringify(brand));
+              localStorage.setItem("price", price.toString());
+              localStorage.setItem("sortPrice", sortPrice);
+              toast.info("Applying filters...", {
+                position: toast.POSITION.TOP_RIGHT,
+              });
+              await searchFunction(
+                sessionStorage.getItem("search_query"),
+                category,
+                brand,
+                price,
+                sortPrice
+              );
+              setItems(sessionStorage.getItem("search_results"));
+            }}
+          >
+            Apply Filters
+          </button>
+          <div style={{ height: "50px" }}></div>
+          <button
+            className="button-apply-clear"
+            onClick={() => {
+              localStorage.setItem(
+                "categories",
+                JSON.stringify([
+                  "furniture",
+                  "lighting",
+                  "plants",
+                  "show_pieces",
+                ])
+              );
+              localStorage.setItem(
+                "brands",
+                JSON.stringify(["home_centre", "ddecor", "stylestop"])
+              );
+              localStorage.setItem("price", "0");
+              localStorage.setItem("sortPrice", "");
+              window.location.reload;
+            }}
+          >
+            Restore Filters
+          </button>
         </div>
         <ToastContainer autoClose={5000} />
         <div className="mid-panel">
           {items.map((e) => {
-            console.log(e.discount);
             return (
               <div style={{ float: "left" }}>
                 <Card
