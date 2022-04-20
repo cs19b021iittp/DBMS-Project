@@ -18,11 +18,11 @@ const BuyerNavbar = () => {
 
   return (
     <div className="buyer-navbar">
-      <div className="buyer-navbar-logo" style={{flex: 0.2}}>
+      <div className="buyer-navbar-logo" style={{ flex: 0.2 }}>
         <img src={logo} alt="logo" style={{ width: "20%" }} />
       </div>
       <ToastContainer autoClose={2000} />
-      <div className="buyer-navbar-searchbar" style={{flex: 0.5}}>
+      <div className="buyer-navbar-searchbar" style={{ flex: 0.5 }}>
         <div style={{ height: "10px" }}></div>
         <Input
           placeholder="Search for items"
@@ -35,20 +35,27 @@ const BuyerNavbar = () => {
             borderRadius: "20px",
           }}
         />
-        
+
         <img
           onClick={async (e) => {
-            toast.info("Searching...",{
+            toast.info("Searching...", {
               position: toast.POSITION.TOP_RIGHT,
             });
-            await searchFunction(searchValue);
+            sessionStorage.setItem("search_query", searchValue);
+            await searchFunction(
+              searchValue,
+              localStorage.getItem("categories"),
+              localStorage.getItem("brands"),
+              localStorage.getItem("price"),
+              localStorage.getItem("sortPrice")
+            );
             window.location.href = "/buyer-home";
           }}
           src={search}
           style={{ height: "30px", marginLeft: "10px", cursor: "pointer" }}
         />
       </div>
-      <div className="buyer-navbar-icons" style={{flex: 0.3}}>
+      <div className="buyer-navbar-icons" style={{ flex: 0.3 }}>
         <span>
           <img
             onClick={() => {

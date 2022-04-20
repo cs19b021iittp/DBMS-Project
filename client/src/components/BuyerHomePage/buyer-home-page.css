@@ -60,3 +60,41 @@
   font-size: 1.4em;
   font-weight: bold;
 }
+
+.button-apply-filter {
+  text-decoration: none;
+  border: none;
+  background-color: #edafb8;
+  color: black;
+  font-size: 1.2em;
+  height: 40px;
+  border-radius: 20px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  cursor: pointer;
+  margin-top: 40px;
+  position: absolute;
+  bottom: 20px;
+  left: 7%;
+}
+
+.button-apply-clear {
+  text-decoration: none;
+  border: none;
+  background-color: #edafb8;
+  color: black;
+  font-size: 1.2em;
+  height: 40px;
+  border-radius: 20px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  cursor: pointer;
+  margin-top: 40px;
+  position: absolute;
+  bottom: 70px;
+  left: 6.5%;
+}
