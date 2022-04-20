@@ -10,16 +10,19 @@ import "./navbar.css";
 import { Input, Space } from "antd";
 import { searchFunction } from "../../functionality/search.js";
 import "antd/dist/antd.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BuyerNavbar = () => {
   const [searchValue, setSearchText] = useState("");
 
   return (
     <div className="buyer-navbar">
-      <span className="buyer-navbar-logo">
+      <div className="buyer-navbar-logo" style={{flex: 0.2}}>
         <img src={logo} alt="logo" style={{ width: "20%" }} />
-      </span>
-      <span className="buyer-navbar-searchbar">
+      </div>
+      <ToastContainer autoClose={2000} />
+      <div className="buyer-navbar-searchbar" style={{flex: 0.5}}>
         <div style={{ height: "10px" }}></div>
         <Input
           placeholder="Search for items"
@@ -28,19 +31,24 @@ const BuyerNavbar = () => {
           }}
           style={{
             height: "40px",
-            width: "50%",
+            width: "80%",
             borderRadius: "20px",
           }}
         />
+        
         <img
-          onClick={(e) => {
-            searchFunction(searchValue);
+          onClick={async (e) => {
+            toast.info("Searching...",{
+              position: toast.POSITION.TOP_RIGHT,
+            });
+            await searchFunction(searchValue);
+            window.location.href = "/buyer-home";
           }}
           src={search}
           style={{ height: "30px", marginLeft: "10px", cursor: "pointer" }}
         />
-      </span>
-      <span className="buyer-navbar-icons">
+      </div>
+      <div className="buyer-navbar-icons" style={{flex: 0.3}}>
         <span>
           <img
             onClick={() => {
@@ -67,7 +75,7 @@ const BuyerNavbar = () => {
             style={{ width: "10%", marginLeft: "15%", cursor: "pointer" }}
           />
         </span>
-      </span>
+      </div>
     </div>
   );
 };

@@ -109,6 +109,8 @@ function BuyerHomePage() {
       toast.info("Fetching items...", {
         position: toast.POSITION.TOP_RIGHT,
       });
+      var results=sessionStorage.getItem("search_results")
+      console.log('outside the catch')
       var query = `SELECT * FROM "discounts"`;
       var discounts = await queryExchange(query);
       var discountsMap = new Map();
@@ -116,28 +118,46 @@ function BuyerHomePage() {
         discountsMap.set(discount.id, discount.name);
       });
       setDiscounts(discountsMap);
-      query = `SELECT * FROM "products"`;
+
+      console.log('inside the catch')
+      
+      if(results==='')
+      {
+        console.log('empty results')
+        var query = `SELECT * FROM "products"`;
       var list = await queryExchange(query);
+      console.log('list',list)
       setItems(list.rows);
+    
+        
+      }
+      else {
+        console.log('else ')
+        // results = JSON.parse(results);
+        console.log('results',results)
+        setItems(JSON.parse(sessionStorage.getItem("search_results")));
+      }
+      sessionStorage.setItem("search_results", '');  
+     
     }
 
     fetchDetails();
   }, []);
 
-  useEffect(() => {
-    if (
-      localStorage.getItem("userType") !== null &&
-      localStorage.getItem("userType") !== undefined &&
-      localStorage.getItem("userType") === "seller"
-    ) {
-      window.location.href = "/seller-home";
-    } else if (
-      localStorage.getItem("userType") === null ||
-      localStorage.getItem("userType") === undefined
-    ) {
-      window.location.href = "/";
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (
+  //     localStorage.getItem("userType") !== null &&
+  //     localStorage.getItem("userType") !== undefined &&
+  //     localStorage.getItem("userType") === "seller"
+  //   ) {
+  //     window.location.href = "/seller-home";
+  //   } else if (
+  //     localStorage.getItem("userType") === null ||
+  //     localStorage.getItem("userType") === undefined
+  //   ) {
+  //     window.location.href = "/";
+  //   }
+  // }, []);
 
   function onChangeCategory(categories) {
     console.log(categories);

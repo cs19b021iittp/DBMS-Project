@@ -53,7 +53,15 @@ export async function searchFunction(searchString) {
    */
 
   const result = await queryExchange(queryString);
-  console.log(result);
+  console.log('in navbar', result.rows);
+
+  // Assign value to a key
+  sessionStorage.setItem("search_results", JSON.stringify(result.rows));
+  // Access value associated with the key
+  
+
+  
+
 
 }
 /* const searchValue = "blue sofa ddecor stylestop";
