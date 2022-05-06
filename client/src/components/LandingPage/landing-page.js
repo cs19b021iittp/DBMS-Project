@@ -7,8 +7,8 @@ import auth_flower from "../../assets/auth_flower.svg";
 import welcome_text from "../../assets/welcome_text.svg";
 
 export const LandingPage = () => {
-//localStorage.clear();
-//sessionStorage.clear();
+  //localStorage.clear();
+  //sessionStorage.clear();
 
   useEffect(() => {
     localStorage.setItem(
@@ -21,7 +21,7 @@ export const LandingPage = () => {
     );
     localStorage.setItem("price", "0");
     localStorage.setItem("sortPrice", "");
-    sessionStorage.setItem("search_results", "");
+    sessionStorage.setItem("search_results", "[]");
     sessionStorage.setItem("search_query", "");
     if (
       localStorage.getItem("userType") !== null &&
