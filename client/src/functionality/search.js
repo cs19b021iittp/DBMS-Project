@@ -26,7 +26,7 @@ export async function searchFunction(
   //   console.log(categories[i])
   // }
 
-  if (categories !== null && categories !== []) {
+  if (categories !== null && categories.length > 0) {
     var categoryString = "";
     for (var i = 0; i < categories.length; i++) {
       categoryString = categoryString + "'" + categories[i] + "',";
@@ -39,7 +39,7 @@ export async function searchFunction(
       queryString += " WHERE category IN (" + categoryString + ")";
     }
   }
-  if (brands !== null && brands !== []) {
+  if (brands !== null && brands.length > 0) {
     var brandString = "";
     for (var i = 0; i < brands.length; i++) {
       brandString = brandString + "'" + brands[i] + "',";
@@ -104,7 +104,6 @@ export async function searchFunction(
 
   queryString = queryString + `;`;
 
-  
   console.log("Query String");
   console.log(queryString);
 
@@ -125,27 +124,35 @@ export async function searchFunction(
   // perform fuzzy search here on 'result'
   // For a fuzzy search, we check the item names and their descriptions for any of the keywords
 
-  var searchResults = result.rows
+  var searchResults = result.rows;
+  var finalSearchResults = [];
   var searchKeywords = searchString.toLowerCase().split(" ");
 
-  if (searchKeywords.length > 0) {
-    
+  if (searchKeywords.length > 0 && searchResults.length > 0) {
     console.log("searchKeywords", searchKeywords);
 
     for (var i = 0; i < searchKeywords.length; i++) {
-      for (var j = 0; j < searchResults.length; j++) {        
+      for (var j = 0; j < searchResults.length; j++) {
         console.log("searchResults[j].name", searchResults[j].name);
-        console.log("searchResults[j].description", searchResults[j].description);
+        console.log(
+          "searchResults[j].description",
+          searchResults[j].description
+        );
 
-        if (searchResults[j].name.toLowerCase().search(searchKeywords[i]) == -1 && searchResults[j].description.toLowerCase().search(searchKeywords[i]) == -1) {
-          console.log("Not found");
-          searchResults.splice(j, j);
+        if (
+          searchResults[j].name.toLowerCase().search(searchKeywords[i]) !==
+            -1 ||
+          searchResults[j].description
+            .toLowerCase()
+            .search(searchKeywords[i]) !== -1
+        ) {
+          finalSearchResults.push(searchResults[j]);
         }
       }
     }
   }
 
   console.log("Final result after fuzzy search if applicable");
-  console.log(searchResults)
+  console.log(searchResults);
   sessionStorage.setItem("search_results", JSON.stringify(searchResults));
 }

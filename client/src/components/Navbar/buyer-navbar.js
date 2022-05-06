@@ -16,6 +16,10 @@ import "react-toastify/dist/ReactToastify.css";
 const BuyerNavbar = () => {
   const [searchValue, setSearchText] = useState("");
 
+  useEffect(() => {
+    setSearchText(sessionStorage.getItem("search_query"));
+  }, []);
+
   return (
     <div className="buyer-navbar">
       <div className="buyer-navbar-logo" style={{ flex: 0.2 }}>
@@ -29,6 +33,7 @@ const BuyerNavbar = () => {
           onChange={(e) => {
             setSearchText(e.target.value);
           }}
+          value={searchValue}
           style={{
             height: "40px",
             width: "80%",

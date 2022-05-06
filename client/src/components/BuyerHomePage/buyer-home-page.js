@@ -123,7 +123,7 @@ function BuyerHomePage() {
       });
       setDiscounts(discountsMap);
 
-      if (results === "") {
+      if (results === "" || results === "[]") {
         var query = `SELECT * FROM "products"`;
         var list = await queryExchange(query);
         setItems(list.rows);

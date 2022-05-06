@@ -29,7 +29,7 @@
   margin-top: 10px;
 }
 
-.logout-button {
+/* .logout-button {
   background-color: #ff2200;
   color: #fff;
   height: 40px;
@@ -41,6 +41,22 @@
   padding-right: 15px;
   margin-top: 50vh;
   cursor: pointer;
+} */
+
+.logout-button {
+  text-decoration: none;
+  border: none;
+  background-color: #edafb8;
+  color: black;
+  font-size: 1.2em;
+  height: 40px;
+  border-radius: 20px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  cursor: pointer;
+  margin-top: 50vh;
 }
 
 .seller-right-panel {
