@@ -28,6 +28,6 @@ app.post("/api/query", async (req, res) => {
   res.json(query);
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.listen(port, () => `Server running on port ${port}`);

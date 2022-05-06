@@ -8,7 +8,16 @@ export async function searchFunction(
   sortPrice
 ) {
   console.log("Inside the search function");
+  console.log('searchString');
   console.log(searchString);
+  console.log('categories');
+  console.log(categories);
+  console.log('brands');
+  console.log(brands);
+  console.log('priceRange');
+  console.log(priceRange);
+  console.log('sortPrice');
+  console.log(sortPrice);
   searchString = searchString.toLowerCase();
 
   var queryString = 'SELECT * FROM "products" ';
@@ -28,8 +37,8 @@ export async function searchFunction(
   }
   if (brands !== null && brands !== []) {
     var brandString = "";
-    for (var i = 0; i < categories.length; i++) {
-      brandString = brandString + "'" + categories[i] + "',";
+    for (var i = 0; i < brands.length; i++) {
+      brandString = brandString + "'" + brands[i] + "',";
     }
     brandString = brandString.slice(0, -1);
     if (queryString.includes("WHERE ")) {
@@ -56,32 +65,32 @@ export async function searchFunction(
     }
   }
 
-  var productIds = new Set();
-  var category = ``;
-  var brand = ``;
-  if (searchString.includes("furniture")) category = `'furniture',`;
-  if (searchString.includes("lighting")) category = category + `'lighting',`;
-  if (searchString.includes("plants")) category = category + `'plants',`;
-  if (searchString.includes("show_pieces"))
-    category = category + `'show_pieces',`;
-  if (category != "") category = "(" + category.slice(0, -1) + ")";
+  // var productIds = new Set();
+  // var category = ``;
+  // var brand = ``;
+  // if (searchString.includes("furniture")) category = `'furniture',`;
+  // if (searchString.includes("lighting")) category = category + `'lighting',`;
+  // if (searchString.includes("plants")) category = category + `'plants',`;
+  // if (searchString.includes("show_pieces"))
+  //   category = category + `'show_pieces',`;
+  // if (category != "") category = "(" + category.slice(0, -1) + ")";
 
-  if (searchString.includes("home_centre")) brand = `'home_centre',`;
-  if (searchString.includes("ddecor")) brand = brand + `'ddecor',`;
-  if (searchString.includes("stylestop")) brand = brand + `'stylestop',`;
-  if (brand != "") brand = "(" + brand.slice(0, -1) + ")";
+  // if (searchString.includes("home_centre")) brand = `'home_centre',`;
+  // if (searchString.includes("ddecor")) brand = brand + `'ddecor',`;
+  // if (searchString.includes("stylestop")) brand = brand + `'stylestop',`;
+  // if (brand != "") brand = "(" + brand.slice(0, -1) + ")";
 
-  if (category != "" && brand != "")
-    queryString =
-      queryString +
-      ` WHERE "category" IN ` +
-      category +
-      ` AND "brand" IN` +
-      brand;
-  else if (category != "")
-    queryString = queryString + ` WHERE "category" IN ` + category;
-  else if (brand != "")
-    queryString = queryString + ` WHERE "brand" IN ` + brand;
+  // if (category != "" && brand != "")
+  //   queryString =
+  //     queryString +
+  //     ` WHERE "category" IN ` +
+  //     category +
+  //     ` AND "brand" IN` +
+  //     brand;
+  // else if (category != "")
+  //   queryString = queryString + ` WHERE "castegory" IN ` + category;
+  // else if (brand != "")
+  //   queryString = queryString + ` WHERE "brand" IN ` + brand;
 
   if (sortPrice !== null && sortPrice !== "") {
     sortPrice = sortPrice === "decreasing" ? ` DESC ` : ` ASC `;
@@ -109,10 +118,12 @@ export async function searchFunction(
    */
 
   const result = await queryExchange(queryString);
-  console.log("in navbar", result.rows);
+  console.log("in navbar", result);
+
 
   // Assign value to a key
-  sessionStorage.setItem("search_results", JSON.stringify(result.rows));
+
+ sessionStorage.setItem("search_results", JSON.stringify(result.rows));
   // Access value associated with the key
 }
 /* const searchValue = "blue sofa ddecor stylestop";

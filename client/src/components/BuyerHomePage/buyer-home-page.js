@@ -115,6 +115,7 @@ function BuyerHomePage() {
         position: toast.POSITION.TOP_RIGHT,
       });
       var results = sessionStorage.getItem("search_results");
+      console.log(results)
       var query = `SELECT * FROM "discounts"`;
       var discounts = await queryExchange(query);
       var discountsMap = new Map();
@@ -129,6 +130,7 @@ function BuyerHomePage() {
         console.log("list", list);
         setItems(list.rows);
       } else {
+        console.log("results", sessionStorage.getItem("search_results"));
         setItems(JSON.parse(sessionStorage.getItem("search_results")));
       }
       sessionStorage.setItem("search_results", "");
@@ -154,10 +156,12 @@ function BuyerHomePage() {
 
   function onChangeCategory(categories) {
     console.log(categories);
+    setCategory(categories);
   }
 
   function onChangeBrand(brands) {
     console.log(brands);
+    setBrand(brands);
   }
 
   const changePrice = (e) => {
