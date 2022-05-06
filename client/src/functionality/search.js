@@ -8,15 +8,15 @@ export async function searchFunction(
   sortPrice
 ) {
   console.log("Inside the search function");
-  console.log('searchString');
+  console.log("searchString");
   console.log(searchString);
-  console.log('categories');
+  console.log("categories");
   console.log(categories);
-  console.log('brands');
+  console.log("brands");
   console.log(brands);
-  console.log('priceRange');
+  console.log("priceRange");
   console.log(priceRange);
-  console.log('sortPrice');
+  console.log("sortPrice");
   console.log(sortPrice);
   searchString = searchString.toLowerCase();
 
@@ -93,19 +93,18 @@ export async function searchFunction(
   //   queryString = queryString + ` WHERE "brand" IN ` + brand;
 
   if (sortPrice !== null && sortPrice !== "") {
-    sortPrice = sortPrice === "decreasing" ? ` DESC ` : ` ASC `;
-    var sortPriceString = ` ORDER BY ${sortPrice}`;
+    sortPrice = sortPrice === "decreasing" ? `DESC ` : `ASC `;
+    var sortPriceString = ` ORDER BY price ${sortPrice}`;
     queryString += sortPriceString;
   }
 
   queryString = queryString + `;`;
-  //queryString = queryString + ' WHERE LOWER(product_name) LIKE \'%' + searchString + '%\''
 
   //var searchKeywords = searchString.split(" ");
 
   console.log("Query String");
   console.log(queryString);
-  //console.log(searchKeywords)
+
   /**
    * if any of the categories or brand names are mentioned, then we apply that filter on the search
    * if no category or brand is mentioned, then we apply the search on all the products
@@ -120,12 +119,7 @@ export async function searchFunction(
   const result = await queryExchange(queryString);
   console.log("in navbar", result);
 
+  // perform fuzzy search here on 'result'
 
-  // Assign value to a key
-
- sessionStorage.setItem("search_results", JSON.stringify(result.rows));
-  // Access value associated with the key
+  sessionStorage.setItem("search_results", JSON.stringify(result.rows));
 }
-/* const searchValue = "blue sofa ddecor stylestop";
-const productList = searchFunction(searchValue);
-console.log(productList); */

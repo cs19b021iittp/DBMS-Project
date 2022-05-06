@@ -78,7 +78,9 @@ var query37 = `alter table "buyers" drop constraint buyers_wallet_balance_check;
 
 var query36 = `select * from "products" where left_in_stock = 0;`;
 
-var initQueries = [query3];
+var query38 = `select * from "products" where brand in ('stylestop') order by price desc`;
+
+var initQueries = [query38];
 
 (async () => {
   // fs.readFileSync("./database_schemas/load_data.sql")
