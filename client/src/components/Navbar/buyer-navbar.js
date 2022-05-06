@@ -44,9 +44,9 @@ const BuyerNavbar = () => {
             sessionStorage.setItem("search_query", searchValue);
             await searchFunction(
               searchValue,
-              localStorage.getItem("categories"),
-              localStorage.getItem("brands"),
-              localStorage.getItem("price"),
+              JSON.parse(localStorage.getItem("categories")),
+              JSON.parse(localStorage.getItem("brands")),
+              parseInt(localStorage.getItem("price")),
               localStorage.getItem("sortPrice")
             );
             window.location.href = "/buyer-home";

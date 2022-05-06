@@ -22,6 +22,10 @@ export async function searchFunction(
 
   var queryString = 'SELECT * FROM "products" ';
 
+  // for ( let i = 0; i<categories.length; i++ ) {
+  //   console.log(categories[i])
+  // }
+
   if (categories !== null && categories !== []) {
     var categoryString = "";
     for (var i = 0; i < categories.length; i++) {
@@ -100,8 +104,7 @@ export async function searchFunction(
 
   queryString = queryString + `;`;
 
-  //var searchKeywords = searchString.split(" ");
-
+  
   console.log("Query String");
   console.log(queryString);
 
@@ -120,6 +123,29 @@ export async function searchFunction(
   console.log("in navbar", result);
 
   // perform fuzzy search here on 'result'
+  // For a fuzzy search, we check the item names and their descriptions for any of the keywords
 
-  sessionStorage.setItem("search_results", JSON.stringify(result.rows));
+  var searchResults = result.rows
+  var searchKeywords = searchString.toLowerCase().split(" ");
+
+  if (searchKeywords.length > 0) {
+    
+    console.log("searchKeywords", searchKeywords);
+
+    for (var i = 0; i < searchKeywords.length; i++) {
+      for (var j = 0; j < searchResults.length; j++) {        
+        console.log("searchResults[j].name", searchResults[j].name);
+        console.log("searchResults[j].description", searchResults[j].description);
+
+        if (searchResults[j].name.toLowerCase().search(searchKeywords[i]) == -1 && searchResults[j].description.toLowerCase().search(searchKeywords[i]) == -1) {
+          console.log("Not found");
+          searchResults.splice(j, j);
+        }
+      }
+    }
+  }
+
+  console.log("Final result after fuzzy search if applicable");
+  console.log(searchResults)
+  sessionStorage.setItem("search_results", JSON.stringify(searchResults));
 }
