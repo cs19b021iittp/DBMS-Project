@@ -7,7 +7,8 @@ import auth_flower from "../../assets/auth_flower.svg";
 import welcome_text from "../../assets/welcome_text.svg";
 
 export const LandingPage = () => {
-  // localStorage.clear();
+//localStorage.clear();
+//sessionStorage.clear();
 
   useEffect(() => {
     localStorage.setItem(
