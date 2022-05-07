@@ -153,6 +153,7 @@ export async function searchFunction(
   }
 
   console.log("Final result after fuzzy search if applicable");
-  console.log(searchResults);
-  sessionStorage.setItem("search_results", JSON.stringify(searchResults));
+  console.log(finalSearchResults);
+  sessionStorage.setItem("search_results", JSON.stringify(finalSearchResults));
+  return;
 }
