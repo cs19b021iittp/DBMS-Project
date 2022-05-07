@@ -19,8 +19,6 @@ PostgreSQL has been chosen as it is the most suitable database system for the re
 PERN stack with Firebase and Heroku services.
 
 ### Authors
-Debeshee
-
-Harshitha
-
-Shreetesh
+* CS19B012 Debeshee
+* CS19B021 Harshitha
+* CS19B037 Shreetesh
